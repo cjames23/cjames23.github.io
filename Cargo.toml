@@ -8,7 +8,15 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-yew = "0.21.0"
-yew-router = "0.18.0"
+yew = "0.17"
+yew-router = "0.14"
 wasm-bindgen-futures = "0"
 lazy_static = "1"
+
+[dependencies.wasm-bindgen]
+version = "0"
+features = [ "serde-serialize" ]
+
+[dependencies.web-sys]
+version = "0"
+features = [ "ScrollToOptions", "ScrollBehavior", "Window", "Request" ]

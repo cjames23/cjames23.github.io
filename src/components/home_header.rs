@@ -1,5 +1,7 @@
 use yew::prelude::*;
 
+use crate::data::{HEADER_LINKS};
+use crate::routes::{AppRoute, Link};
 fn about_content() -> Html {
     html! {
         <div>
@@ -37,22 +39,25 @@ impl Component for HomeHeader {
             .iter()
             .map(|v| {
                 html! {
-                    <div className="-m-1.5 p-1.5 rounded-md font-bold first-letter:uppercase hover:transition-colors hover:duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:hover:text-orange-500 text-neutral-100">
-                    <NavItem
-                        <a href={v.route}>
-                        {v.name}
-                    </a>
-                    />
-                    </div>
+                    <li>
+                        <div className="-m-1.5 p-1.5 rounded-md font-bold first-letter:uppercase hover:transition-colors hover:duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:hover:text-orange-500 text-neutral-100">
+                            <a href={v.route}>
+                            {v.name}
+                            </a>
+                        </div>
+                    </li>
                 }
             })
             .collect::<Html>();
 
         html! {
             <header className="fixed top-0 z-50 hidden w-full bg-neutral-900/50 p-4 backdrop-blur sm:block">
-                <nav className="flex justify-center gap-x-8">
-                {header_links}
-                </nav>
+                <div class="home-header-section">
+                    <div class="logo-link">
+                        <Link route={AppRoute::Index}></Link>
+                    </div>
+                    <ul>{header_links}</ul>
+                </div>
             </header>
 
         }
