@@ -5,7 +5,6 @@ use yew_router::prelude::*;
 use crate::pages;
 use crate::routes::AppRoute;
 
-
 #[wasm_bindgen]
 extern "C" {
     fn alert(s: &str);
@@ -13,7 +12,7 @@ extern "C" {
 
 pub struct AppRouter;
 
-impl Component for AppRouter{
+impl Component for AppRouter {
     type Message = ();
     type Properties = ();
 
@@ -33,7 +32,7 @@ impl Component for AppRouter{
         let render_func = Router::render(|switch: AppRoute| match switch {
             AppRoute::Index | AppRoute::Home => html! {
                 <pages::Home/>
-            }
+            },
         });
         html! {
             <Router<AppRoute, ()>

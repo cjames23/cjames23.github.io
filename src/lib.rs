@@ -3,11 +3,10 @@ use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 
 mod app_router;
-mod pages;
-mod routes;
 mod components;
 mod data;
-
+mod pages;
+mod routes;
 
 use app_router::AppRouter;
 
@@ -36,6 +35,6 @@ impl Component for Model {
 }
 
 #[wasm_bindgen(start)]
-pub fn run_app(){
+pub fn run_app() {
     App::<Model>::new().mount_to_body();
 }

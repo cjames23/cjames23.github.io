@@ -3,7 +3,7 @@ use yew::prelude::*;
 use crate::routes::{AppRoute, Link};
 
 #[derive(Clone, Debug)]
-pub struct Header{
+pub struct Header {
     link: ComponentLink<Self>,
 }
 
@@ -17,7 +17,7 @@ impl Component for Header {
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         false
     }
-    fn change(&mut self, _props: Self::Properties ) -> ShouldRender {
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
         false
     }
 

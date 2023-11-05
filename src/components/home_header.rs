@@ -1,6 +1,6 @@
 use yew::prelude::*;
 
-use crate::data::{HEADER_LINKS};
+use crate::data::HEADER_LINKS;
 use crate::routes::{AppRoute, Link};
 fn about_content() -> Html {
     html! {
@@ -14,7 +14,7 @@ fn about_content() -> Html {
 }
 
 #[derive(Clone, Debug)]
-pub struct HomeHeader{
+pub struct HomeHeader {
     link: ComponentLink<Self>,
 }
 
@@ -23,7 +23,7 @@ impl Component for HomeHeader {
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { link}
+        Self { link }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {

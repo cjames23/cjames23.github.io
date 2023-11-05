@@ -4,12 +4,12 @@ use yew::prelude::*;
 use crate::components::{Footer, Header};
 
 #[derive(Clone, Debug, Properties)]
-pub struct Props{
+pub struct Props {
     pub children: Children,
 }
 
 #[derive(Clone, Debug)]
-pub struct PageTemplate{
+pub struct PageTemplate {
     props: Props,
     link: ComponentLink<Self>,
 }
