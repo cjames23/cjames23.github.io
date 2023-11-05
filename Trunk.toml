@@ -1,0 +1,13 @@
+[build]
+target = "index.html"
+dist = "dist"
+inject_scripts = true
+
+[watch]
+watch = []
+ignore = []
+
+[serve]
+no_autoreload = false
+
+
