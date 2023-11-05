@@ -5,10 +5,13 @@ on:
     workflows: [Continuous integration]
     types: [completed]
 
+  workflow_dispatch:
+
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -24,5 +27,5 @@ jobs:
       - uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
-          github_token: $
-          publish_dir: ./dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./static
