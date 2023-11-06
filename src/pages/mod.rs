@@ -1,5 +1,3 @@
-mod home;
-mod page_template;
+pub mod home;
 
-pub use self::home::Home;
-pub use self::page_template::PageTemplate;
+pub use home::Home;

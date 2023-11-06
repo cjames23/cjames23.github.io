@@ -1,28 +1,12 @@
-use crate::components::HomeHeader;
 use yew::prelude::*;
 
-pub struct Home;
+#[function_component(Home)]
+pub fn home_function_component() -> Html {
 
-impl Component for Home {
-    type Message = ();
-    type Properties = ();
-    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self {}
-    }
-
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        false
-    }
-
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn view(&self) -> Html {
-        html! {
-            <div class="base">
-                <HomeHeader/>
+    return html! {
+        <div class="container mt-4">
+             <div class="row justify-content-md-center">
             </div>
-        }
-    }
+        </div>
+    };
 }
