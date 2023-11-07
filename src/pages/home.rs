@@ -1,5 +1,5 @@
-use yew::prelude::*;
 use crate::components::nav::Nav;
+use yew::prelude::*;
 
 #[function_component(Home)]
 pub fn home_function_component() -> Html {
