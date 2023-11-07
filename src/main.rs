@@ -5,8 +5,8 @@ use cjames_web::pages::home::Home;
 #[function_component(App)]
 fn app() -> Html {
     html! {
-       <Home/>
-   }
+        <Home/>
+    }
 }
 
 fn main() {

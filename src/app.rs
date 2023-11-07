@@ -18,6 +18,3 @@ pub fn switch(route: Route) -> Html {
         Route::NotFound => html! { <p class="text-white">{ "Not found" }</p> },
     }
 }
-
-
-
