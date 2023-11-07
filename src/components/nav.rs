@@ -2,41 +2,32 @@ use yew::prelude::*;
 
 #[function_component]
 pub fn Nav() -> Html {
-    let navbar_active = use_state_eq(|| false);
-
-    let toggle_navbar = {
-        let navbar_active = navbar_active.clone();
-
-        Callback::from(move |_| {
-            navbar_active.set(!*navbar_active);
-        })
-    };
-
-    let active_class = if !*navbar_active { "is-active" } else { "" };
+    let menu = "Menu";
+    let about = "About";
 
     html! {
-        <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <h1 class="navbar-item is-size-3">{ "Yew Blog" }</h1>
+      <div class="relative">
+          <button type="button" class="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
+            <span>{menu}</span>
+          </button>
 
-                <button class={classes!("navbar-burger", "burger", active_class)}
-                    aria-label="menu" aria-expanded="false"
-                    onclick={toggle_navbar}
-                >
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </button>
-            </div>
-            <div class={classes!("navbar-menu", active_class)}>
-                <div class="navbar-start">
-                <div class="navbar-item has-dropdown is-hoverable">
-                        <div class="navbar-link">
-                            { "More" }
-                        </div>
-                    </div>
+        <div class="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
+          <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+            <div class="p-4">
+              <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                <div class="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                 </div>
+                <div>
+                  <a href="#" class="font-semibold text-gray-900">
+                    {about}
+                    <span class="absolute inset-0"></span>
+                  </a>
+                  <p class="mt-1 text-gray-600"></p>
+                </div>
+              </div>
             </div>
-        </nav>
+          </div>
+        </div>
+        </div>
     }
 }
