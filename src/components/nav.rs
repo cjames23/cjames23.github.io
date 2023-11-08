@@ -2,32 +2,34 @@ use yew::prelude::*;
 
 #[function_component]
 pub fn Nav() -> Html {
-    let menu = "Menu";
-    let about = "About";
-
     html! {
-      <div class="relative">
-          <button type="button" class="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
-            <span>{menu}</span>
-          </button>
-
-        <div class="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
-          <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
-            <div class="p-4">
-              <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
-                <div class="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+        <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+            <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+                <div class="mx-auto w-full max-w-7xl lg:px-8">
+                    <div class="relative px-4 sm:px-8 lg:px-12">
+                        <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                            <div class="relative flex gap-4">
+                            <div class="flex flex-1"></div>
+                                <div class="flex flex-1 justify-end md:justify-center">
+                                    <nav class="pointer-events-auto hidden md:block">
+                                        <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                                            <li>
+                                                <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">{"About"}</a>
+                                            </li>
+                                            <li>
+                                                <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="/article">{"Articles"}</a>
+                                            </li>
+                                            <li>
+                                                <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="/projects">{"Projects"}</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                  <a href="#" class="font-semibold text-gray-900">
-                    {about}
-                    <span class="absolute inset-0"></span>
-                  </a>
-                  <p class="mt-1 text-gray-600"></p>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
         </div>
     }
 }

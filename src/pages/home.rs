@@ -1,3 +1,4 @@
+use crate::components::header::Header;
 use crate::components::nav::Nav;
 use yew::prelude::*;
 
@@ -6,12 +7,11 @@ pub fn home_function_component() -> Html {
     let message = "Coming Soon!";
     return html! {
         <>
-        <div class="container mt-4">
-            <Nav />
-             <div class="row justify-content-md-center">
-                <p>{message}</p>
-             </div>
-        </div>
+            <div class="flex w-full">
+                <Header>
+                    <Nav/>
+                </Header>
+            </div>
         </>
     };
 }
