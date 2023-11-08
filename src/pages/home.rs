@@ -3,7 +3,7 @@ use crate::components::nav::Nav;
 use yew::prelude::*;
 
 #[function_component(Home)]
-pub fn home_function_component() -> Html {
+pub fn home_function() -> Html {
     let message = "Coming Soon!";
     return html! {
         <>

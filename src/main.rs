@@ -1,13 +1,6 @@
-use yew::prelude::*;
-
+use cjames_web::app::App;
 use cjames_web::pages::home::Home;
-
-#[function_component(App)]
-fn app() -> Html {
-    html! {
-        <Home/>
-    }
-}
+use yew::prelude::*;
 
 fn main() {
     wasm_logger::init(wasm_logger::Config::new(log::Level::Trace));
