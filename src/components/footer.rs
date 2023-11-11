@@ -3,8 +3,8 @@ use yew::prelude::*;
 #[function_component(Footer)]
 pub fn footer() -> Html {
     html! {
-        <footer class="pointer-events-auto bg-white dark:bg-gray-900 fixed w-full z-20 bottom-0 start-0 border-b border-gray-200 dark:border-gray-600">
-            <div class="flex mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <footer class="bg-white dark:bg-gray-900">
+            <div class="relative flex mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                 <div class="md:flex md:justify-between">
                     <div class="mb-6 md:mb-0">
                       <a href="https://cjameshawkins.com/" class="flex items-center">

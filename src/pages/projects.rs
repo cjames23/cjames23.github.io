@@ -32,7 +32,7 @@ pub fn projects() -> Html {
         </div>
     </div>
        </Header>
-        <div class="flex-1"></div>
+        <div class="flex-auto"></div>
         <Footer/>
         </>
            }

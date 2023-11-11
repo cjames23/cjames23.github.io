@@ -10,7 +10,7 @@ pub fn home_function() -> Html {
             <Header>
                 <Nav />
             </Header>
-            <h2 class="flex-1 text-9xl font-extrabold text-center">{"Coming Soon!"}
+            <h2 class="flex-auto text-9xl font-extrabold text-center">{"Coming Soon!"}
             </h2>
             <Footer />
         </>

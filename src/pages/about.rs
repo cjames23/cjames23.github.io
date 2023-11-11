@@ -14,7 +14,7 @@ pub fn about_function() -> Html {
        <Header>
         <Nav />
         </Header>
-           <div class="flex-auto dark">
+           <div class="container mx-auto flex-auto">
             <div class="sm:px-8 mt-16 sm:mt-32">
             <div class="mx-auto w-full max-w-7xl lg:px-8">
                 <div class="relative px-4 sm:px-8 lg:px-12">
@@ -24,7 +24,7 @@ pub fn about_function() -> Html {
                                     <img src="about.jpeg" />
                                 </div>
                             </div>
-                        <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+                        <div class="flex-1 grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
 
                             <div class="lg:order-first lg:row-span-2">
                                 <h1 class="text-4xl font-bold tracking-tight text-black-800 dark:text-black-100 sm:text-5xl">
@@ -32,7 +32,7 @@ pub fn about_function() -> Html {
                                 </h1>
                             </div>
                             <div class="mt-6 space-y-7 text-base text-black-600 dark:text-black-400">
-                                <p>
+                                <p class="flex-auto">
                                     {first_p}
                                 </p>
                             </div>
@@ -43,9 +43,7 @@ pub fn about_function() -> Html {
             </div>
         </div>
     </div>
-    <div class="flex-1"></div>
-
-        <Footer/>
+    <Footer/>
         </>
            }
 }
