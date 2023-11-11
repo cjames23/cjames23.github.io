@@ -1,6 +1,5 @@
 use yew::prelude::*;
 
-
 #[derive(Properties, PartialEq)]
 pub struct HeaderProps {
     #[prop_or_default]

@@ -1,2 +1,2 @@
-pub mod sun;
 pub mod moon;
+pub mod sun;

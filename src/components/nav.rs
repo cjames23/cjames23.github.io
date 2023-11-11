@@ -1,22 +1,21 @@
 use std::rc::Rc;
 
-use yew::prelude::*;
-use yew::{function_component, html, Html, Properties, Callback};
 use gloo::utils::document;
 use wasm_bindgen::{closure::Closure, JsCast};
+use yew::prelude::*;
+use yew::{function_component, html, Callback, Html, Properties};
 #[derive(Clone, Properties, PartialEq)]
 pub struct Props {
     #[prop_or(false)]
-    is_active: bool
+    is_active: bool,
 }
 #[function_component]
 pub fn Nav(props: &Props) -> Html {
-    let aria_expanded= use_state(|| false);
+    let aria_expanded = use_state(|| false);
 
     let onclick = Callback::from(move |_: MouseEvent| {
         let aria_expanded = aria_expanded.clone();
         aria_expanded.set(!*aria_expanded)
-
     });
 
     html! {
