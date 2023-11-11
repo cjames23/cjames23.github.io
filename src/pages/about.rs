@@ -1,3 +1,4 @@
+use crate::components::footer::Footer;
 use crate::components::header::Header;
 use crate::components::nav::Nav;
 use yew::prelude::*;
@@ -9,6 +10,7 @@ pub fn about_function() -> Html {
                    I have now been in the space of Data and Software since 2014. I started off as a Metrics Analyst and moved through to becoming a Data Engineer at Amazon in 2017. \
                    My passions are still evolving as I am finding myself drawn more to developer experience and build tools in more recent months.";
     html! {
+        <>
        <Header>
         <Nav />
            <div class="flex-auto dark">
@@ -40,5 +42,8 @@ pub fn about_function() -> Html {
         </div>
     </div>
        </Header>
+
+        <Footer/>
+        </>
            }
 }

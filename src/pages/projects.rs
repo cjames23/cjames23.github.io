@@ -1,3 +1,4 @@
+use crate::components::footer::Footer;
 use crate::components::header::Header;
 use crate::components::nav::Nav;
 use yew::prelude::*;
@@ -5,6 +6,7 @@ use yew::prelude::*;
 #[function_component(Projects)]
 pub fn projects() -> Html {
     html! {
+        <>
        <Header>
         <Nav />
            <div class="flex-auto dark">
@@ -27,5 +29,7 @@ pub fn projects() -> Html {
         </div>
     </div>
        </Header>
+        <Footer/>
+        </>
            }
 }
