@@ -20,6 +20,9 @@ pub fn projects() -> Html {
                                     <li>
                                         <a class="hover:text-red-800" href="https://www.linkedin.com/posts/apache-airflow_new-apache-airflow-provider-weve-just-released-activity-7122632024523218944-suuC" >{"Contributor to Apache Airflow."}</a>
                                     </li>
+                                    <li>
+                                        <a class="hover:text-red-800" href="https://github.com/chadac/poetry-plugin-pypi-proxy" >{"Committer to Poetry Plugin that allows using a proxy to pypi"}</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -29,6 +32,7 @@ pub fn projects() -> Html {
         </div>
     </div>
        </Header>
+        <div class="flex-1"></div>
         <Footer/>
         </>
            }

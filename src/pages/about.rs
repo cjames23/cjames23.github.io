@@ -7,12 +7,13 @@ use yew::prelude::*;
 pub fn about_function() -> Html {
     let first_p = "I have a rather unorthodox background as an engineer, \
                    I studied Philosophy in undergrad and pursued a life in the kitchen as a chef for over 15 years before turning towards tech. \
-                   I have now been in the space of Data and Software since 2014. I started off as a Metrics Analyst and moved through to becoming a Data Engineer at Amazon in 2017. \
+                   I have now been in the space of Data and Software since 2014. I started off as a Metrics Analyst at a small start up in Phoenix, AZ where I eventually became a database administrator before becoming a Data Engineer at Amazon in 2017. \
                    My passions are still evolving as I am finding myself drawn more to developer experience and build tools in more recent months.";
     html! {
         <>
        <Header>
         <Nav />
+        </Header>
            <div class="flex-auto dark">
             <div class="sm:px-8 mt-16 sm:mt-32">
             <div class="mx-auto w-full max-w-7xl lg:px-8">
@@ -35,13 +36,14 @@ pub fn about_function() -> Html {
                                     {first_p}
                                 </p>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-       </Header>
+    <div class="flex-1"></div>
 
         <Footer/>
         </>
