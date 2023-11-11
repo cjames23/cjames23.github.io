@@ -1,35 +1,61 @@
-use yew::prelude::*;
+use std::rc::Rc;
 
+use yew::prelude::*;
+use yew::{function_component, html, Html, Properties, Callback};
+use gloo::utils::document;
+use wasm_bindgen::{closure::Closure, JsCast};
+#[derive(Clone, Properties, PartialEq)]
+pub struct Props {
+    #[prop_or(false)]
+    is_active: bool
+}
 #[function_component]
-pub fn Nav() -> Html {
+pub fn Nav(props: &Props) -> Html {
+    let aria_expanded= use_state(|| false);
+
+    let onclick = Callback::from(move |_: MouseEvent| {
+        let aria_expanded = aria_expanded.clone();
+        aria_expanded.set(!*aria_expanded)
+
+    });
+
     html! {
-        <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
-            <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
-                <div class="mx-auto w-full max-w-7xl lg:px-8">
-                    <div class="relative px-4 sm:px-8 lg:px-12">
-                        <div class="mx-auto max-w-2xl lg:max-w-5xl">
-                            <div class="relative flex gap-4">
-                            <div class="flex flex-1"></div>
-                                <div class="flex flex-1 justify-end md:justify-center">
-                                    <nav class="pointer-events-auto hidden md:block">
-                                        <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
-                                            <li>
-                                                <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">{"About"}</a>
-                                            </li>
-                                            <li>
-                                                <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="/article">{"Articles"}</a>
-                                            </li>
-                                            <li>
-                                                <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="/projects">{"Projects"}</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <nav class="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+          <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <div class="filter: invert(100%);">
+                    <img src="logo.svg"  class="h-20 "/>
                 </div>
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{"Cary Hawkins"}</span>
+            </a>
+            <button
+                data-collapse-toggle="navbar-hamburger"
+                type="button" class="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                aria-controls="navbar-hamburger"
+                {onclick}
+            >
+              <span class={classes!("sr-only")}>{"Open main menu"}</span>
+              <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+              </svg>
+            </button>
+            <div class="hidden w-full" id="navbar-hamburger">
+              <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                <li>
+                  <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded dark:bg-blue-600" aria-current="page">{"Home"}</a>
+                </li>
+                <li>
+                  <a href="#About" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{"About"}</a>
+                </li>
+                <li>
+                  <a href="#Projects" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">{"Current Projects"}</a>
+                </li>
+                <li>
+                  <a href="#Blog" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{"Blog"}</a>
+                </li>
+              </ul>
             </div>
-        </div>
+          </div>
+        </nav>
     }
 }

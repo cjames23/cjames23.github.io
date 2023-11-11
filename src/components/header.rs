@@ -1,5 +1,6 @@
 use yew::prelude::*;
 
+
 #[derive(Properties, PartialEq)]
 pub struct HeaderProps {
     #[prop_or_default]
@@ -9,7 +10,7 @@ pub struct HeaderProps {
 #[function_component]
 pub fn Header(props: &HeaderProps) -> Html {
     html! {
-        <div class="fixed inset-0 flex justify-center sm:px8">
+        <div class="md:container md:mx-auto dark">
             <div class="flex w-full max-w-7xl lg:px-8">
                 <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20">
                 </div>

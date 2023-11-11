@@ -16,6 +16,7 @@ function findAllRsExtensions(dir) {
 }
 
 module.exports = {
+    darkMode: 'class',
     content: findAllRsExtensions("./src"),
     theme: {
         container: {
