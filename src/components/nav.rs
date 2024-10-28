@@ -1,7 +1,7 @@
-use std::convert::Into;
-use yew_sidebar::{Sidebar, SidebarProps, MenuItem};
-use yew::prelude::*;
 use patternfly_yew::prelude::*;
+use std::convert::Into;
+use yew::prelude::*;
+use yew_sidebar::{MenuItem, Sidebar, SidebarProps};
 
 #[function_component(Nav)]
 pub fn nav_bar() -> Html {

@@ -20,7 +20,6 @@ pub fn switch(route: Route) -> Html {
         Route::Home => html! { <Home />},
         Route::Projects => html! { <Projects /> },
         Route::NotFound => html! { <p class="text-white">{ "Not found" }</p> },
-        _ => html! {<Home />}
     }
 }
 
