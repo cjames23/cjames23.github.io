@@ -6,25 +6,27 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-yew-router = "0.17.0"
+yew-router = "0.18.0"
 wasm-bindgen-futures = "0"
 lazy_static = "1"
 serde = "1.0.190"
 lipsum = "0.9.0"
 log = "0.4"
 rand = { version = "0.8", features = ["small_rng"] }
-gloo = "0.10"
+gloo = "0.11.0"
 wasm-logger = "0.2"
 instant = { version = "0.1", features = ["wasm-bindgen"] }
 once_cell = "1"
-reqwest = "0.11.22"
+reqwest = "0.12.8"
 dotenvy_macro = "0.15.7"
 material-yew = { version = "0.3", features = ["full"] }
 muicss-yew = { git = "https://github.com/AlephAlpha/muicss-yew" }
+yew-sidebar = "0.1.4"
+patternfly-yew = "0.6.3"
 
 
 [dependencies.yew]
-version = "0.20.0"
+version = "0.21.0"
 features = ["csr"]
 
 [dependencies.wasm-bindgen]

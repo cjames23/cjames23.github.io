@@ -7,7 +7,6 @@ use yew::prelude::*;
 pub fn projects() -> Html {
     html! {
         <>
-       <Header>
         <Nav />
            <div class="flex-auto dark">
             <div class="sm:px-8 mt-16 sm:mt-32">
@@ -31,9 +30,7 @@ pub fn projects() -> Html {
             </div>
         </div>
     </div>
-       </Header>
         <div class="flex-auto"></div>
-        <Footer/>
         </>
            }
 }
