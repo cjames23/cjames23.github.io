@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link data-trunk rel="css" href="./dist/css/main.css"/>
-  <link data-trunk rel="copy-file" href="./static/404.html"/>
-  <link data-trunk rel="copy-file" href="./static/about.jpeg" />
-  <link data-trunk rel="copy-file" href="./static/logo.svg" />
+  <link data-trunk rel="copy-dir" href="./static/404.html"/>
+  <link data-trunk rel="copy-dir" href="node_modules/@patternfly/patternfly/assets" data-target-path="assets/">
+  <link data-trunk rel="rust" href="Cargo.toml" data-wasm-opt="z" data-initializer="assets/initializer.mjs"/>
   <link data-trunk rel="copy-file" href="CNAME" />
+  <base data-trunk-public-url/>
   <title>Cary Hawkins</title>
 </head>
 <body>
