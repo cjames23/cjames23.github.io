@@ -1,36 +1,46 @@
-use crate::components::footer::Footer;
-use crate::components::header::Header;
 use crate::components::nav::Nav;
 use yew::prelude::*;
+use patternfly_yew::prelude::*;
 
 #[function_component(Projects)]
 pub fn projects() -> Html {
     html! {
         <>
-        <Nav />
-           <div class="flex-auto dark">
-            <div class="sm:px-8 mt-16 sm:mt-32">
-            <div class="mx-auto w-full max-w-7xl lg:px-8">
-                <div class="relative px-4 sm:px-8 lg:px-12">
-                    <div class="mx-auto max-w-2xl lg:max-w-5xl">
-                        <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
-                            <div class="pointer-events-auto mt-6 space-y-7 text-base text-black-600 dark:text-black-400">
-                                <ul>
-                                    <li>
-                                        <a class="hover:text-red-800" href="https://www.linkedin.com/posts/apache-airflow_new-apache-airflow-provider-weve-just-released-activity-7122632024523218944-suuC" >{"Contributor to Apache Airflow."}</a>
-                                    </li>
-                                    <li>
-                                        <a class="hover:text-red-800" href="https://github.com/chadac/poetry-plugin-pypi-proxy" >{"Committer to Poetry Plugin that allows using a proxy to pypi"}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-        <div class="flex-auto"></div>
+        <Grid>
+            <GridItem cols={[2]} rows={[12]}>
+            <Nav />
+        </GridItem>
+        <GridItem cols={[10]} rows={[1]}>
+        <Breadcrumb>
+                     <BreadcrumbItem href="/">{"Home"}</BreadcrumbItem>
+                     <BreadcrumbItem href="/projects">{"Projects"}</BreadcrumbItem>
+        </Breadcrumb>
+        </GridItem>
+        <GridItem cols={[10]} rows={[4]}>
+        <Content>
+            <h1>{"Projects"}</h1>
+        </Content>
+        </GridItem>
+        <GridItem cols={[4]} rows={[4]}>
+        <Card>
+        <CardTitle>{"Contributor to Apache Airflow."}</CardTitle>
+        <CardBody>
+        <a class="hover:text-red-800" href="https://www.linkedin.com/posts/apache-airflow_new-apache-airflow-provider-weve-just-released-activity-7122632024523218944-suuC">
+        {"Released the first pieces to an Open Search Airflow Provider"}</a>
+        </CardBody>
+        </Card>
+        </GridItem>
+        <GridItem cols={[4]} rows={[4]}>
+        <Card>
+        <CardTitle>{"Maintainer of Pypi Proxy Poetry Plugin "}</CardTitle>
+        <CardBody>
+        <a class="hover:text-red-800" href="https://github.com/chadac/poetry-plugin-pypi-proxy" >
+        {"Maintain a plugin that was developed to handle proxy repos for pypi including auth."}</a>
+        </CardBody>
+        </Card>
+        </GridItem>
+        </Grid>
+
         </>
            }
 }

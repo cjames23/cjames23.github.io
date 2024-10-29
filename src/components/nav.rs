@@ -1,5 +1,4 @@
 use patternfly_yew::prelude::*;
-use std::convert::Into;
 use yew::prelude::*;
 use yew_sidebar::{MenuItem, Sidebar, SidebarProps};
 
@@ -24,6 +23,7 @@ pub fn nav_bar() -> Html {
             />
         </svg>
     };
+
     let menu_items = vec![
         MenuItem {
             icon: html! { Icon::Home.as_html() },
@@ -42,7 +42,7 @@ pub fn nav_bar() -> Html {
             submenus: vec![],
         },
         MenuItem {
-            icon: html! {},
+            icon: html! { Icon::FolderOpen.as_html() },
             text: "Projects",
             link: "/projects",
             class: "",
@@ -50,7 +50,7 @@ pub fn nav_bar() -> Html {
             submenus: vec![],
         },
         MenuItem {
-            icon: html! {},
+            icon: html! { Icon::QuestionCircle.as_html()},
             text: "Contact",
             link: "/contact",
             class: "",
@@ -72,7 +72,7 @@ pub fn nav_bar() -> Html {
         display_expanded: "flex",
         justify_content: "flex-col",
         align_items: "items-start",
-        height: "h-screen",
+        height: "h-dvh",
         background_color: "rounded border-2 bg-gray-700",
         font: "text-lg text-white",
         button_border_radius: "",

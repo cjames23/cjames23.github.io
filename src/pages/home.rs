@@ -1,5 +1,4 @@
-use patternfly_yew::core::WithBreakpointExt;
-use patternfly_yew::prelude::{Content, Flex, FlexItem, FlexModifier};
+use patternfly_yew::prelude::*;
 use crate::components::nav::Nav;
 use yew::prelude::*;
 
@@ -11,28 +10,27 @@ pub fn home_function() -> Html {
                    My passions are still evolving as I am finding myself drawn more to developer experience and build tools in more recent months.";
     html! {
         <>
-        <Flex>
-            <Flex modifiers={[FlexModifier::Column.lg()]}>
-                <FlexItem>
-                <Nav/>
-                </FlexItem>
-            </Flex>
-        </Flex>
-        <Flex>
-            <Flex modifiers={[FlexModifier::Column.lg()]}>
-                <FlexItem>
-                    <img src="about.jpeg" />
-                </FlexItem>
-                <FlexItem>
-                <Content>
-                <h1 class="text-4xl font-bold tracking-tight text-black-800 dark:text-black-100 sm:text-5xl">
-                    {"I am Cary Hawkins, an Alpinist and Software Engineer from Sultan, WA."}
-                </h1>
-                <p>{first_p}</p>
-                </Content>
-                </FlexItem>
-            </Flex>
-        </Flex>
+        <Split>
+        <SplitItem>
+            <Nav/>
+        </SplitItem>
+        <SplitItem>
+        <Breadcrumb>
+            <BreadcrumbItem href="/">{"Home"}</BreadcrumbItem>
+        </Breadcrumb>
+            <img class="h-2/6" src="about.jpeg" />
+                <Card>
+                        <CardTitle>
+                        <h1 class="text-4xl font-bold tracking-tight text-black-800 dark:text-black-100 sm:text-5xl">
+                            {"I am Cary Hawkins, an Alpinist and Software Engineer from Sultan, WA."}
+                        </h1>
+                        </CardTitle>
+                        <CardBody>
+                        <p>{first_p}</p>
+                        </CardBody>
+                </Card>
+        </SplitItem>
+        </Split>
         </>
        }
 }

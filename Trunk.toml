@@ -8,9 +8,13 @@ public_url = "/"                           # for {username}.github.io
 watch = [
     "./index.html",
     "src/",
-    "css/",
-    "static/",
+    "assets/",
 ]
 
 [clean]
 dist = "dist"
+
+[[hooks]]
+stage = "post_build"
+command = "sh"
+command_arguments = ["-c", "npx tailwindcss -i ./assets/tailwind.css -o ./dist/.stage/index.css"]
