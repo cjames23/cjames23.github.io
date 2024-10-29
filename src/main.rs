@@ -36,7 +36,7 @@ pub fn main() -> Result<(), JsValue> {
                 message = details.message()
             )
         }))
-            .into_panic_hook(),
+        .into_panic_hook(),
     );
     yew::Renderer::<App>::new().render();
     Ok(())
