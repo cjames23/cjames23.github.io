@@ -28,7 +28,7 @@ pub fn nav_bar() -> Html {
         MenuItem {
             icon: html! { Icon::Home.as_html() },
             text: "Home",
-            link: "",
+            link: "/",
             class: "",
             title: "",
             submenus: vec![],
@@ -36,7 +36,7 @@ pub fn nav_bar() -> Html {
         MenuItem {
             icon: html! { Icon::Catalog.as_html() },
             text: "Blog",
-            link: "blog",
+            link: "/blog",
             class: "",
             title: "",
             submenus: vec![],
@@ -44,7 +44,7 @@ pub fn nav_bar() -> Html {
         MenuItem {
             icon: html! { Icon::FolderOpen.as_html() },
             text: "Projects",
-            link: "projects",
+            link: "/projects",
             class: "",
             title: "",
             submenus: vec![],
@@ -52,7 +52,7 @@ pub fn nav_bar() -> Html {
         MenuItem {
             icon: html! { Icon::QuestionCircle.as_html()},
             text: "Contact",
-            link: "contact",
+            link: "/contact",
             class: "",
             title: "",
             submenus: vec![],
