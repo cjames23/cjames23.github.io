@@ -4,6 +4,7 @@ use crate::route::Route;
 use patternfly_yew::prelude::*;
 use yew::prelude::*;
 use yew_router::prelude::*;
+use crate::app::ThemeContext;
 
 #[derive(Properties, PartialEq)]
 pub struct BlogPostProps {
@@ -14,6 +15,9 @@ pub struct BlogPostProps {
 pub fn blog_post(props: &BlogPostProps) -> Html {
     let blog_db = use_memo((), |_| BlogDb::new());
     let navigator = use_navigator().unwrap();
+
+    let theme_context = use_context::<ThemeContext>().expect("Theme context not found");
+    let dark_mode = theme_context.dark_mode;
 
     let post = blog_db.get_post(&props.id);
 
@@ -43,7 +47,7 @@ pub fn blog_post(props: &BlogPostProps) -> Html {
                                 <i class="fas fa-arrow-left"></i>{" Back to Blog"}
                             </Button>
 
-                            <Card size={CardSize::Large} class="mt-3">
+                            <Card size={CardSize::Large} class={classes!("mt-3","bg-white", "dark:bg-gray-800", "text-gray-800", "dark:text-white")}>
                                 <CardTitle>
                                     <h1>{&post.title}</h1>
                                 </CardTitle>
