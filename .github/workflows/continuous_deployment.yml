@@ -38,7 +38,7 @@ jobs:
           node-version: '20'
 
       - name: Install Tailwind CSS and dependencies
-        run: npm install -D tailwindcss
+        run: npm install -D tailwindcss @tailwindcss/cli
 
       - name: Install trunk
         uses: jetli/trunk-action@v0.1.0

@@ -14,6 +14,6 @@ watch = [
 dist = "dist"
 
 [[hooks]]
-stage = "pre_build"
+stage = "post_build"
 command = "npx"
-command_arguments = ["-y", "tailwindcss", "-i", "./assets/tailwind.css", "-o", "./dist/.stage/index.css", "--minify"]
+command_arguments = ["@tailwindcss/cli", "-i", "./assets/tailwind.css", "-o", "./dist/.stage/index.css", "--minify"]
