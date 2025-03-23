@@ -9,12 +9,36 @@ pub fn projects() -> Html {
     let dark_mode = theme_context.dark_mode;
 
     // Define color palette based on theme
-    let bg_primary = if dark_mode { "bg-[#3A4D39]" } else { "bg-[#ECE3CE]" };
-    let text_primary = if dark_mode { "text-[#ECE3CE]" } else { "text-[#3A4D39]" };
-    let card_bg = if dark_mode { "bg-[#4F6F52]" } else { "bg-[#739072]" };
-    let card_text = if dark_mode { "text-[#ECE3CE]" } else { "text-[#ECE3CE]" };
-    let link_color = if dark_mode { "text-[#ECE3CE]" } else { "text-[#ECE3CE]" };
-    let link_hover = if dark_mode { "hover:text-[#D0D4CA]" } else { "hover:text-[#D0D4CA]" };
+    let bg_primary = if dark_mode {
+        "bg-[#3A4D39]"
+    } else {
+        "bg-[#ECE3CE]"
+    };
+    let text_primary = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#3A4D39]"
+    };
+    let card_bg = if dark_mode {
+        "bg-[#4F6F52]"
+    } else {
+        "bg-[#739072]"
+    };
+    let card_text = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#ECE3CE]"
+    };
+    let link_color = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#ECE3CE]"
+    };
+    let link_hover = if dark_mode {
+        "hover:text-[#D0D4CA]"
+    } else {
+        "hover:text-[#D0D4CA]"
+    };
 
     html! {
         <div class={classes!("page-container", "p-8", text_primary)}>

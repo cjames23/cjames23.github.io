@@ -1,9 +1,9 @@
 // src/pages/home.rs
 use crate::app::ThemeContext;
+use crate::route::Route;
 use patternfly_yew::prelude::*;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use crate::route::Route;
 
 #[function_component(Home)]
 pub fn home_function() -> Html {
