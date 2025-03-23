@@ -1,6 +1,7 @@
 // src/components/nav.rs
-use crate::app::{Route, ThemeContext};
+use crate::app::ThemeContext;
 use crate::components::nav_context::NavContext;
+use crate::route::Route;
 use gloo::events::EventListener;
 use web_sys::HtmlElement;
 use yew::prelude::*;
@@ -17,6 +18,7 @@ pub fn nav() -> Html {
         let toggle = nav_context.toggle_collapsed.clone();
         Callback::from(move |_| toggle.emit(()))
     };
+
     // Toggle theme
     let toggle_theme = {
         let toggle_theme = theme_context.toggle_theme.clone();

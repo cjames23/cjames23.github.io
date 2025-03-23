@@ -1,6 +1,6 @@
-// src/components/layout.rs
 use crate::app::ThemeContext;
 use crate::components::footer::Footer;
+use crate::components::header::Header;
 use crate::components::nav::Nav;
 use crate::components::nav_context::NavContext;
 use yew::prelude::*;
@@ -27,22 +27,24 @@ pub fn layout(props: &LayoutProps) -> Html {
         toggle_collapsed,
     };
 
-    // Change this line to use no margin when collapsed
-    let main_margin = if *collapsed { "ml-0" } else { "ml-64" };
+    let content_margin = if *collapsed { "ml-16" } else { "ml-64" };
 
     html! {
         <ContextProvider<NavContext> context={nav_context}>
             <div class={classes!(
-                "flex", "flex-col", "min-h-screen",
+                "flex", "flex-col", "h-screen",
                 if dark_mode { "dark" } else { "" }
             )}>
                 <Nav />
-                <main class={classes!("flex-grow", "transition-all", "duration-300", main_margin, "p-6", "bg-white", "dark:bg-gray-900")}>
-                    <div class="container mx-auto">
-                        { for props.children.iter() }
-                    </div>
-                </main>
-                <Footer />
+                <div class={classes!("transition-all", "duration-300", content_margin, "flex", "flex-col", "h-screen")}>
+                    <Header />
+                    <main class={classes!("flex-grow", "overflow-y-auto", "p-6", "bg-white", "dark:bg-gray-900")}>
+                        <div class="container mx-auto">
+                            { for props.children.iter() }
+                        </div>
+                    </main>
+                    <Footer/>
+                </div>
             </div>
         </ContextProvider<NavContext>>
     }

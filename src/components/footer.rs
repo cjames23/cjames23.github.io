@@ -1,32 +1,36 @@
-// src/components/footer.rs
-use crate::app::ThemeContext;
 use yew::prelude::*;
 
-#[function_component(Footer)]
-pub fn footer() -> Html {
-    let theme_context = use_context::<ThemeContext>().expect("Theme context not found");
+#[derive(Properties, PartialEq)]
+pub struct FooterProps {
+    #[prop_or_default]
+    pub class: Classes,
+}
 
+#[function_component(Footer)]
+pub fn footer(props: &FooterProps) -> Html {
     html! {
-        <footer class="footer mt-auto py-4 border-t dark:border-gray-700">
-            <div class="container mx-auto px-4 md:px-8">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="mb-4 md:mb-0">
-                        <p class="text-gray-600 dark:text-gray-400">
-                            {"© 2025 Cary Hawkins. All rights reserved."}
-                        </p>
-                    </div>
-                    <div class="flex space-x-4">
-                        <a href="https://github.com/cjames23" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                            <i class="fab fa-github text-xl"></i>
-                        </a>
-                        <a href="https://twitter.com/" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                            <i class="fab fa-twitter text-xl"></i>
-                        </a>
-                        <a href="https://linkedin.com/" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                            <i class="fab fa-linkedin text-xl"></i>
-                        </a>
-                    </div>
-                </div>
+        <footer class={classes!(
+            "p-4",
+            "flex",
+            "justify-between",
+            "items-center",
+            "bg-gray-800",
+            "text-white",
+            props.class.clone()
+        )}>
+            <div>
+                <p>{"© 2024 C. James Hawkins"}</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="https://github.com/cjames23" class="text-white hover:text-gray-300">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="https://linkedin.com/in/cary-hawkins" class="text-white hover:text-gray-300">
+                    <i class="fab fa-linkedin text-xl"></i>
+                </a>
+                <a href="mailto:contact@cjameshawkins.com" class="text-white hover:text-gray-300">
+                    <i class="fas fa-envelope text-xl"></i>
+                </a>
             </div>
         </footer>
     }

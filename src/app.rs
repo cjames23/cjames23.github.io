@@ -4,9 +4,11 @@ use yew_router::prelude::*;
 
 use crate::components::layout::Layout;
 use crate::pages::blog::Blog;
+use crate::pages::blog_post::BlogPost;
 use crate::pages::contact::Contact;
 use crate::pages::home::Home;
 use crate::pages::projects::Projects;
+use crate::route::Route;
 
 // Theme context
 #[derive(Clone, Debug, PartialEq)]
@@ -39,21 +41,6 @@ impl Reducible for ThemeState {
     }
 }
 
-#[derive(Clone, Routable, PartialEq)]
-pub enum Route {
-    #[at("/")]
-    Home,
-    #[at("/projects")]
-    Projects,
-    #[at("/blog")]
-    Blog,
-    #[at("/contact")]
-    Contact,
-    #[not_found]
-    #[at("/404")]
-    NotFound,
-}
-
 #[function_component(App)]
 pub fn app() -> Html {
     let dark_mode = use_state(|| {
@@ -67,17 +54,23 @@ pub fn app() -> Html {
             .unwrap_or(false)
     });
 
+    let dark_mode = use_state(|| true); // Initial state, true for dark mode
     let toggle_theme = {
         let dark_mode = dark_mode.clone();
         Callback::from(move |_| {
-            let new_value = !*dark_mode;
-            if let Some(storage) = web_sys::window()
-                .and_then(|win| win.local_storage().ok())
-                .flatten()
-            {
-                let _ = storage.set_item("darkMode", &new_value.to_string());
+            let new_mode = !*dark_mode;
+            dark_mode.set(new_mode);
+
+            // Update the document class to reflect the theme change
+            if let Some(document) = web_sys::window().and_then(|win| win.document()) {
+                if let Some(html) = document.document_element() {
+                    if new_mode {
+                        let _ = html.class_list().add_1("dark");
+                    } else {
+                        let _ = html.class_list().remove_1("dark");
+                    }
+                }
             }
-            dark_mode.set(new_value);
         })
     };
 
@@ -104,6 +97,7 @@ pub fn switch(route: Route) -> Html {
         Route::Contact => html! { <Layout><Contact /></Layout> },
         Route::Projects => html! { <Layout><Projects /></Layout> },
         Route::Blog => html! { <Layout><Blog /></Layout> },
+        Route::BlogPost { id } => html! { <Layout><BlogPost {id} /></Layout> },
         Route::NotFound => html! { <div class="not-found"><h1>{"404 - Not Found"}</h1></div> },
     }
 }

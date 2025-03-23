@@ -6,21 +6,12 @@ pub struct HeaderProps {
     pub children: Children,
 }
 
-#[function_component]
-pub fn Header(props: &HeaderProps) -> Html {
+#[function_component(Header)]
+pub fn header() -> Html {
     html! {
-        <div class="md:container md:mx-auto dark">
-            <div class="flex w-full max-w-7xl lg:px-8">
-                <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20">
-                </div>
-            </div>
-            <div class="relative flex w-full flex-col">
-                <header class="pointer-events-none relative z-50 flex flex-none flex-col" style="height:var(--header-height);margin-bottom:var(--header-mb)">
-                    <div class="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]">
-                    </div>
-                    { for props.children.iter() }
-                </header>
-            </div>
+        <div class="flex items-center p-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+            <img src="logo.svg" alt="Logo" class="h-10 w-10 mr-3" />
+            <h1 class="text-xl font-bold text-gray-800 dark:text-white">{"C. James Hawkins"}</h1>
         </div>
     }
 }
