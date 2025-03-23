@@ -1,52 +1,62 @@
 name: Continuous deployment
 on:
-  [push, pull_request]
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - run: cargo test --all
 
   format:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - run: cargo fmt --all -- --check
+
   release:
     needs: [test, format]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Install TailwindCSS globally
-        run: npm install -g tailwindcss
+      - name: Build Tailwind CSS
+        run: npx tailwindcss -i ./assets/tailwind.css -o ./assets/min-tailwind.css --minify
 
-      - uses: actions-rs/toolchain@v1
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           target: wasm32-unknown-unknown
 
-      - uses: jetli/trunk-action@v0.1.0
-      - uses: jetli/wasm-bindgen-action@v0.1.0
-      - uses: jetli/wasm-pack-action@v0.4.0
+      - name: Install trunk
+        uses: jetli/trunk-action@v0.1.0
 
-      - run: trunk build --release
-      - name: UploadArtifact
+      - name: Copy assets
+        run: |
+          mkdir -p dist/assets
+          cp -r assets/* dist/assets/ || true
+
+      - name: Build with trunk
+        run: trunk build --release
+
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
-
-
+          publish_dir: ./dist
+          keep_files: false
