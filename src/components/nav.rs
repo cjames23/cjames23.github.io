@@ -1,10 +1,10 @@
 // src/components/nav.rs
 use crate::app::{Route, ThemeContext};
+use crate::components::nav_context::NavContext;
 use gloo::events::EventListener;
 use web_sys::HtmlElement;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use crate::components::nav_context::NavContext;
 
 #[function_component(Nav)]
 pub fn nav() -> Html {

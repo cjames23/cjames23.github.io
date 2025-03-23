@@ -2,8 +2,8 @@
 use crate::app::ThemeContext;
 use gloo::net::http::Request;
 use serde::{Deserialize, Serialize};
-use web_sys::HtmlInputElement;
 use wasm_bindgen::JsCast;
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -51,7 +51,8 @@ pub fn contact() -> Html {
                 let json_body = match serde_json::to_string(&*form_data) {
                     Ok(body) => body,
                     Err(_) => {
-                        status_message.set(Some(("Failed to process form data".to_string(), false)));
+                        status_message
+                            .set(Some(("Failed to process form data".to_string(), false)));
                         submitting.set(false);
                         return;
                     }
@@ -60,7 +61,8 @@ pub fn contact() -> Html {
                 // Create request with error handling
                 let request = match Request::post("/api/contact")
                     .header("Content-Type", "application/json")
-                    .body(json_body) {
+                    .body(json_body)
+                {
                     Ok(req) => req,
                     Err(_) => {
                         status_message.set(Some(("Failed to create request".to_string(), false)));
@@ -74,9 +76,12 @@ pub fn contact() -> Html {
                     Ok(_) => {
                         status_message.set(Some(("Message sent successfully!".to_string(), true)));
                         form_data.set(FormData::default());
-                    },
+                    }
                     Err(_) => {
-                        status_message.set(Some(("Failed to send message. Please try again.".to_string(), false)));
+                        status_message.set(Some((
+                            "Failed to send message. Please try again.".to_string(),
+                            false,
+                        )));
                     }
                 }
 

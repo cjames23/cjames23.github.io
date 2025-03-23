@@ -1,6 +1,6 @@
 // src/components/footer.rs
-use yew::prelude::*;
 use crate::app::ThemeContext;
+use yew::prelude::*;
 
 #[function_component(Footer)]
 pub fn footer() -> Html {
