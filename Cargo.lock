@@ -165,6 +165,7 @@ dependencies = [
  "rand",
  "reqwest",
  "serde",
+ "serde_json",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "wasm-logger",

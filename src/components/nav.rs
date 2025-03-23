@@ -4,19 +4,19 @@ use gloo::events::EventListener;
 use web_sys::HtmlElement;
 use yew::prelude::*;
 use yew_router::prelude::*;
+use crate::components::nav_context::NavContext;
 
 #[function_component(Nav)]
 pub fn nav() -> Html {
     let theme_context = use_context::<ThemeContext>().expect("Theme context not found");
-    let collapsed = use_state(|| false);
     let nav_ref = use_node_ref();
+    let nav_context = use_context::<NavContext>().expect("NavContext not found");
+    let collapsed = nav_context.collapsed; // This is already a bool, no need to dereference
 
-    // Toggle sidebar collapse state
     let toggle_collapsed = {
-        let collapsed = collapsed.clone();
-        Callback::from(move |_| collapsed.set(!*collapsed))
+        let toggle = nav_context.toggle_collapsed.clone();
+        Callback::from(move |_| toggle.emit(()))
     };
-
     // Toggle theme
     let toggle_theme = {
         let toggle_theme = theme_context.toggle_theme.clone();
@@ -31,8 +31,8 @@ pub fn nav() -> Html {
         (Route::Contact, "Contact Me", "envelope"),
     ];
 
-    let sidebar_width = if *collapsed { "w-16" } else { "w-64" };
-    let icon_transform = if *collapsed { "" } else { "rotate-180" };
+    let sidebar_width = if collapsed { "w-16" } else { "w-64" };
+    let icon_transform = if collapsed { "" } else { "rotate-180" };
 
     html! {
         <div ref={nav_ref.clone()} class={classes!("sidebar", sidebar_width, "transition-all", "duration-300", "ease-in-out",
@@ -41,7 +41,7 @@ pub fn nav() -> Html {
 
             // Logo and collapse button
             <div class="flex items-center justify-between p-4 border-b border-gray-700">
-                <div class={classes!("logo", if *collapsed { "hidden" } else { "" })}>
+                <div class={classes!("logo", if collapsed { "hidden" } else { "" })}>
                     <h1 class="text-xl font-bold">{"Cary Hawkins"}</h1>
                 </div>
                 <button
@@ -70,7 +70,7 @@ pub fn nav() -> Html {
                                 <span class="inline-flex items-center justify-center w-8 h-8">
                                     <i class={format!("fas fa-{}", icon)}></i>
                                 </span>
-                                if !*collapsed {
+                                if !collapsed {
                                     <span class="ml-3">{label}</span>
                                 }
                             </Link<Route>>
@@ -87,12 +87,12 @@ pub fn nav() -> Html {
                 >
                     if theme_context.dark_mode {
                         <i class="fas fa-sun mr-2"></i>
-                        if !*collapsed {
+                        if !collapsed {
                             <span>{"Light Mode"}</span>
                         }
                     } else {
                         <i class="fas fa-moon mr-2"></i>
-                        if !*collapsed {
+                        if !collapsed {
                             <span>{"Dark Mode"}</span>
                         }
                     }

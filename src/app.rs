@@ -56,39 +56,54 @@ pub enum Route {
 
 #[function_component(App)]
 pub fn app() -> Html {
-    let theme_state = use_reducer(|| ThemeState { dark_mode: false });
+    let dark_mode = use_state(|| {
+        // Check local storage or system preference for initial value
+        web_sys::window()
+            .and_then(|win| win.local_storage().ok())
+            .flatten()
+            .and_then(|storage| storage.get_item("darkMode").ok())
+            .flatten()
+            .map(|val| val == "true")
+            .unwrap_or(false)
+    });
 
     let toggle_theme = {
-        let theme_state = theme_state.clone();
-        Callback::from(move |_| theme_state.dispatch(ThemeAction::Toggle))
+        let dark_mode = dark_mode.clone();
+        Callback::from(move |_| {
+            let new_value = !*dark_mode;
+            if let Some(storage) = web_sys::window()
+                .and_then(|win| win.local_storage().ok())
+                .flatten()
+            {
+                let _ = storage.set_item("darkMode", &new_value.to_string());
+            }
+            dark_mode.set(new_value);
+        })
     };
 
     let theme_context = ThemeContext {
-        dark_mode: theme_state.dark_mode,
+        dark_mode: *dark_mode,
         toggle_theme,
     };
 
-    let theme_class = if theme_state.dark_mode { "dark" } else { "" };
-
     html! {
-        <ContextProvider<ThemeContext> context={theme_context}>
-            <div class={classes!("app-container", theme_class)}>
-                <BrowserRouter>
-                    <Layout>
-                        <Switch<Route> render={switch} />
-                    </Layout>
-                </BrowserRouter>
-            </div>
-        </ContextProvider<ThemeContext>>
+        <BrowserRouter>
+            <ContextProvider<ThemeContext> context={theme_context}>
+                <div class={classes!("min-h-screen", "transition-colors", "duration-300",
+                               if *dark_mode { "dark" } else { "" })}>
+                    <Switch<Route> render={switch} />
+                </div>
+            </ContextProvider<ThemeContext>>
+        </BrowserRouter>
     }
 }
 
 pub fn switch(route: Route) -> Html {
     match route {
-        Route::Home => html! { <Home /> },
-        Route::Projects => html! { <Projects /> },
-        Route::Blog => html! { <Blog /> },
-        Route::Contact => html! { <Contact /> },
+        Route::Home => html! { <Layout><Home /></Layout> },
+        Route::Contact => html! { <Layout><Contact /></Layout> },
+        Route::Projects => html! { <Layout><Projects /></Layout> },
+        Route::Blog => html! { <Layout><Blog /></Layout> },
         Route::NotFound => html! { <div class="not-found"><h1>{"404 - Not Found"}</h1></div> },
     }
 }
