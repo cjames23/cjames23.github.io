@@ -37,17 +37,15 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build Tailwind CSS
-        run: npx tailwindcss -i ./assets/tailwind.css -o ./assets/min-tailwind.css --minify
+      - name: Install Tailwind CSS and dependencies
+        run: npm install -D tailwindcss
 
       - name: Install trunk
         uses: jetli/trunk-action@v0.1.0
 
       - name: Build with trunk
         run: trunk build --release
+        # Trunk will handle Tailwind processing via the hook in Trunk.toml
 
       - name: Create .nojekyll file
         run: touch dist/.nojekyll
@@ -60,4 +58,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          cname: cjameshawkins.com  # Replace with your domain if you have one
