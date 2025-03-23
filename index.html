@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C James Hawkins</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/style-e05406512382ea1d.css" integrity="sha384&#x2D;3EsJWX6xUtUSJmmDx3SIOemmg39&#x2B;Ol&#x2B;gl4mXUL2m0L6Q5daYFB0BLUTVAY7qrSuV"/>
+  <link rel="stylesheet" href="/style-dc48dcdd19aa288a.css" integrity="sha384-3U4oc5VgXr3GeyyTHU157RdEQJNTV1DsT1VOo8A0/zNS056p0qUIeLDihj8mzxVv"/>
   <!-- This path needs to be here, otherwise icons won't render correctly -->
   
   
@@ -18,16 +18,11 @@
   
 
   
-<script type="module" nonce="hfnwvh4YGb6oXq2C4g9vaA==">
-async function __trunkInitializer(init, source, sourceSize, initializer) {
+<script type="module">
+async function __trunkInitializer(init, source, sourceSize, initializer, initWithObject) {
   if (initializer === undefined) {
-    return await init(source);
+    return await init(initWithObject ? { module_or_path: source } : source);
   }
-
-  return await __trunkInitWithProgress(init, source, sourceSize, initializer);
-}
-
-async function __trunkInitWithProgress(init, source, sourceSize, initializer) {
 
   const {
     onStart, onProgress, onComplete, onSuccess, onFailure
@@ -76,7 +71,7 @@ async function __trunkInitWithProgress(init, source, sourceSize, initializer) {
           new Response(stream, init),
       );
 
-  return init(response)
+  return init(initWithObject ? { module_or_path: response } : response)
       .then((value) => {
         onComplete?.();
         onSuccess?.(value);
@@ -89,10 +84,10 @@ async function __trunkInitWithProgress(init, source, sourceSize, initializer) {
 }
 
 
-import init, * as bindings from '/cjames-web-ee8f6470074d301a.js';
+import init, * as bindings from '/cjames-web-3dc7ec8b6d432cca.js';
 import initializer from '/ec3951e0885d5535-initializer.mjs';
 
-const wasm = await __trunkInitializer(init, '/cjames-web-ee8f6470074d301a_bg.wasm', 557082, initializer());
+const wasm = await __trunkInitializer(init, '/cjames-web-3dc7ec8b6d432cca_bg.wasm', 600330, initializer(), true);
 
 
 window.wasmBindings = bindings;
@@ -103,7 +98,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 </script>
 
   <base href="/" />
-<link rel="modulepreload" href="/cjames-web-ee8f6470074d301a.js" crossorigin=anonymous integrity="sha384-J22twqQdSDNrZNpVf5vN5nfnkX55QCmrYn2C3zqpjAnLv6ce851Cpe7ZO1Qjbf5h"><link rel="modulepreload" href="/snippets/patternfly-yew-0ef213e7b5153f35/inline0.js" crossorigin=anonymous integrity="sha384-zy5mmIMTQjvMpnTQ3Qe5sMr6CpdiRYQoBYPuZmdI+prD82/NjkHnnwViKyYg/fsE"><link rel="modulepreload" href="/snippets/popper-rs-8d813255017003f5/inline0.js" crossorigin=anonymous integrity="sha384-iWVucg2K930VDWWFRj+aKp4y0jPBPbEGCZip6h/rcAH8815KEuy40EPU0rlKo5oN"><link rel="modulepreload" href="/snippets/popper-rs-sys-2abfff2090cd1771/js/release/popperjs.js" crossorigin=anonymous integrity="sha384-0XzgOD40cO/urJ9dEaO0wm5p5Bc3xaYEC1Sh+RW6r8aDdWxoerY9T8DLtqj5xt3H"><link rel="modulepreload" href="/ec3951e0885d5535-initializer.mjs" crossorigin=anonymous integrity="sha384-Fl5MMIojOzmqybORcYQas84U1noRTcZhTbb+TbbDeB8LLuqXpWxGTPyhHLM5c4Tu"><link rel="preload" href="/cjames-web-ee8f6470074d301a_bg.wasm" crossorigin=anonymous integrity="sha384-uyzGEaNZnuYnSe/W8X7c3+tZcf8tg532lsRxvbtbcVSKUV9hSs2cO8gmeJSFocPA" as="fetch" type="application/wasm"></head>
+<link rel="modulepreload" href="/cjames-web-3dc7ec8b6d432cca.js" crossorigin="anonymous" integrity="sha384-xDR9EH4qtg9U6pq6UMD4nZjwnJ0+crBExz8skHZn4ITU0Q+6Bj+ksCF3KCfTHxny"><link rel="modulepreload" href="/snippets/popper-rs-8d813255017003f5/inline0.js" crossorigin="anonymous" integrity="sha384-iWVucg2K930VDWWFRj+aKp4y0jPBPbEGCZip6h/rcAH8815KEuy40EPU0rlKo5oN"><link rel="modulepreload" href="/snippets/popper-rs-sys-2abfff2090cd1771/js/release/popperjs.js" crossorigin="anonymous" integrity="sha384-0XzgOD40cO/urJ9dEaO0wm5p5Bc3xaYEC1Sh+RW6r8aDdWxoerY9T8DLtqj5xt3H"><link rel="modulepreload" href="/snippets/patternfly-yew-0ef213e7b5153f35/inline0.js" crossorigin="anonymous" integrity="sha384-zy5mmIMTQjvMpnTQ3Qe5sMr6CpdiRYQoBYPuZmdI+prD82/NjkHnnwViKyYg/fsE"><link rel="modulepreload" href="/ec3951e0885d5535-initializer.mjs" crossorigin="anonymous" integrity="sha384-Fl5MMIojOzmqybORcYQas84U1noRTcZhTbb+TbbDeB8LLuqXpWxGTPyhHLM5c4Tu"><link rel="preload" href="/cjames-web-3dc7ec8b6d432cca_bg.wasm" crossorigin="anonymous" integrity="sha384-GGGlbgO1YSJEGzABzYKtztTatEzXQeY+aiZOcM5pwGmKGA3yZQHzH9AN+Vg6FQdo" as="fetch" type="application/wasm"></head>
 
 <body>
 <script type="text/javascript">

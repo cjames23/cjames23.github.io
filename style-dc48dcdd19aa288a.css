@@ -4,6 +4,8 @@
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2024 Fonticons, Inc.
  */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
 .fa {
   font-family: var(--fa-style-family, "Font Awesome 6 Free");
   font-weight: var(--fa-style, 900);
@@ -54069,4 +54071,74 @@ label.pf-v5-c-tree-view__node-text {
   :where(.pf-v5-theme-dark) .pf-v5-u-icon-color-dark-on-2xl {
     color: var(--pf-v5-global--icon--Color--dark) !important;
   }
+}
+
+/* Global styles */
+:root {
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --bg-light: #ffffff;
+  --bg-dark: #111827;
+  --text-light: #1f2937;
+  --text-dark: #f3f4f6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+
+body.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.app-container {
+  min-height: 100vh;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding-left: 16rem; /* Match sidebar width */
+  transition: padding-left 0.3s;
+}
+
+.sidebar.collapsed + .main-content {
+  padding-left: 4rem;
+}
+
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px);
+}
+
+/* Footer positioning styles */
+.footer {
+  margin-left: 16rem; /* Match sidebar width */
+  transition: margin-left 0.3s;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    margin-left: 0;
+  }
+}
+/* When sidebar is collapsed */
+.sidebar.w-16 ~ .footer {
+  margin-left: 4rem;
 }

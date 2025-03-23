@@ -1,40 +1,128 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Cary Hawkins</title>
-    <script type="text/javascript">
-        // Single Page Apps for GitHub Pages
-        // MIT License
-        // https://github.com/rafgraph/spa-github-pages
-        // This script takes the current url and converts the path and query
-        // string into just a query string, and then redirects the browser
-        // to the new url with only a query string and hash fragment,
-        // e.g. https://www.foo.tld/one/two?a=b&c=d#qwe, becomes
-        // https://www.foo.tld/?/one/two&a=b~and~c=d#qwe
-        // Note: this 404.html file must be at least 512 bytes for it to work
-        // with Internet Explorer (it is currently > 512 bytes)
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C James Hawkins</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/style-dc48dcdd19aa288a.css" integrity="sha384-3U4oc5VgXr3GeyyTHU157RdEQJNTV1DsT1VOo8A0/zNS056p0qUIeLDihj8mzxVv"/>
+  <!-- This path needs to be here, otherwise icons won't render correctly -->
+  
+  
+  
+  </link>
+  </link>
 
-        // If you're creating a Project Pages site and NOT using a custom domain,
-        // then set pathSegmentsToKeep to 1 (enterprise users may need to set it to > 1).
-        // This way the code will only replace the route part of the path, and not
-        // the real directory in which the app resides, for example:
-        // https://username.github.io/repo-name/one/two?a=b&c=d#qwe becomes
-        // https://username.github.io/repo-name/?/one/two&a=b~and~c=d#qwe
-        // Otherwise, leave pathSegmentsToKeep as 0.
-        var pathSegmentsToKeep = 0;
+  <!-- include when using the icons-far or icons-fab feature -->
+  <!-- also requires includes in the assets/styles.scss file -->
+  
 
-        var l = window.location;
-        l.replace(
-            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-            l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-            l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-            l.hash
-        );
+  
+<script type="module">
+async function __trunkInitializer(init, source, sourceSize, initializer, initWithObject) {
+  if (initializer === undefined) {
+    return await init(initWithObject ? { module_or_path: source } : source);
+  }
 
-    </script>
-</head>
+  const {
+    onStart, onProgress, onComplete, onSuccess, onFailure
+  } = initializer;
+
+  onStart?.();
+
+  const response = fetch(source)
+      .then((response) => {
+        const reader = response.body.getReader();
+        const headers = response.headers;
+        const status = response.status;
+        const statusText = response.statusText;
+
+        const total = sourceSize;
+        let current = 0;
+
+        const stream = new ReadableStream({
+          start(controller) {
+            function push() {
+              reader.read().then(({done, value}) => {
+                if (done) {
+                  onProgress?.({current: total, total});
+                  controller.close();
+                  return;
+                }
+
+                current += value.byteLength;
+                onProgress?.({current, total});
+                controller.enqueue(value);
+                push();
+              });
+            }
+
+            push();
+          },
+        });
+
+        return {
+          stream, init: {
+            headers, status, statusText
+          }
+        };
+      })
+      .then(({stream, init}) =>
+          new Response(stream, init),
+      );
+
+  return init(initWithObject ? { module_or_path: response } : response)
+      .then((value) => {
+        onComplete?.();
+        onSuccess?.(value);
+        return value;
+      }, (reason) => {
+        onComplete?.();
+        onFailure?.(reason);
+        return reason;
+      });
+}
+
+
+import init, * as bindings from '/cjames-web-3dc7ec8b6d432cca.js';
+import initializer from '/ec3951e0885d5535-initializer.mjs';
+
+const wasm = await __trunkInitializer(init, '/cjames-web-3dc7ec8b6d432cca_bg.wasm', 600330, initializer(), true);
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+
+  <base href="/" />
+<link rel="modulepreload" href="/cjames-web-3dc7ec8b6d432cca.js" crossorigin="anonymous" integrity="sha384-xDR9EH4qtg9U6pq6UMD4nZjwnJ0+crBExz8skHZn4ITU0Q+6Bj+ksCF3KCfTHxny"><link rel="modulepreload" href="/snippets/popper-rs-8d813255017003f5/inline0.js" crossorigin="anonymous" integrity="sha384-iWVucg2K930VDWWFRj+aKp4y0jPBPbEGCZip6h/rcAH8815KEuy40EPU0rlKo5oN"><link rel="modulepreload" href="/snippets/popper-rs-sys-2abfff2090cd1771/js/release/popperjs.js" crossorigin="anonymous" integrity="sha384-0XzgOD40cO/urJ9dEaO0wm5p5Bc3xaYEC1Sh+RW6r8aDdWxoerY9T8DLtqj5xt3H"><link rel="modulepreload" href="/snippets/patternfly-yew-0ef213e7b5153f35/inline0.js" crossorigin="anonymous" integrity="sha384-zy5mmIMTQjvMpnTQ3Qe5sMr6CpdiRYQoBYPuZmdI+prD82/NjkHnnwViKyYg/fsE"><link rel="modulepreload" href="/ec3951e0885d5535-initializer.mjs" crossorigin="anonymous" integrity="sha384-Fl5MMIojOzmqybORcYQas84U1noRTcZhTbb+TbbDeB8LLuqXpWxGTPyhHLM5c4Tu"><link rel="preload" href="/cjames-web-3dc7ec8b6d432cca_bg.wasm" crossorigin="anonymous" integrity="sha384-GGGlbgO1YSJEGzABzYKtztTatEzXQeY+aiZOcM5pwGmKGA3yZQHzH9AN+Vg6FQdo" as="fetch" type="application/wasm"></head>
+
 <body>
+<script type="text/javascript">
+  // Single Page Apps for GitHub Pages
+  // MIT License
+  // https://github.com/rafgraph/spa-github-pages
+  // This script checks to see if a redirect is present in the query string,
+  // converts it back into the correct url and adds it to the
+  // browser's history using window.history.replaceState(...),
+  // which won't cause the browser to attempt to load the new url.
+  // When the single page app is loaded further down in this file,
+  // the correct url will be waiting in the browser's history for
+  // the single page app to route accordingly.
+  (function(l) {
+    if (l.search[1] === '/' ) {
+      var decoded = l.search.slice(1).split('&').map(function(s) {
+        return s.replace(/~and~/g, '&')
+      }).join('?');
+      window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+      );
+    }
+  }(window.location))
+</script>
 </body>
+
 </html>
