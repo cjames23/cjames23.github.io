@@ -15,5 +15,5 @@ dist = "dist"
 
 [[hooks]]
 stage = "pre_build"
-command = "npx"
-command_arguments = ["tailwindcss", "-i", "./assets/tailwind.css", "-o", "./dist/.stage/index.css", "--minify"]
+command = "tailwind"
+command_arguments = ["-i", "./assets/tailwind.css", "-o", "./dist/.stage/index.css", "--minify"]
