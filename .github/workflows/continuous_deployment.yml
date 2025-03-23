@@ -26,10 +26,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v4
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -37,26 +43,21 @@ jobs:
       - name: Build Tailwind CSS
         run: npx tailwindcss -i ./assets/tailwind.css -o ./assets/min-tailwind.css --minify
 
-      - name: Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-
       - name: Install trunk
         uses: jetli/trunk-action@v0.1.0
 
-      - name: Copy assets
-        run: |
-          mkdir -p dist/assets
-          cp -r assets/* dist/assets/ || true
-
       - name: Build with trunk
         run: trunk build --release
+
+      - name: Create .nojekyll file
+        run: touch dist/.nojekyll
+
+      - name: Copy index.html to 404.html
+        run: cp dist/index.html dist/404.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          keep_files: false
+          cname: cjameshawkins.com  # Replace with your domain if you have one

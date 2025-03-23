@@ -1,7 +1,6 @@
 [build]
 target = "index.html"
 dist = "dist"
-release = false
 public_url = "/"                           # for {username}.github.io
 
 [watch]
