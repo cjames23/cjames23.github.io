@@ -1,12 +1,17 @@
+// src/app.rs
 use std::rc::Rc;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::components::layout::Layout;
+use crate::components::nav_context::NavProvider;
+use crate::components::themecontext::ThemeProvider;
+use crate::pages::admin::Admin;
 use crate::pages::blog::Blog;
 use crate::pages::blog_post::BlogPost;
 use crate::pages::contact::Contact;
 use crate::pages::home::Home;
+use crate::pages::login::Login;
 use crate::pages::projects::Projects;
 use crate::route::Route;
 
@@ -43,50 +48,13 @@ impl Reducible for ThemeState {
 
 #[function_component(App)]
 pub fn app() -> Html {
-    let dark_mode = use_state(|| {
-        // Check local storage or system preference for initial value
-        web_sys::window()
-            .and_then(|win| win.local_storage().ok())
-            .flatten()
-            .and_then(|storage| storage.get_item("darkMode").ok())
-            .flatten()
-            .map(|val| val == "true")
-            .unwrap_or(false)
-    });
-
-    let dark_mode = use_state(|| true); // Initial state, true for dark mode
-    let toggle_theme = {
-        let dark_mode = dark_mode.clone();
-        Callback::from(move |_| {
-            let new_mode = !*dark_mode;
-            dark_mode.set(new_mode);
-
-            // Update the document class to reflect the theme change
-            if let Some(document) = web_sys::window().and_then(|win| win.document()) {
-                if let Some(html) = document.document_element() {
-                    if new_mode {
-                        let _ = html.class_list().add_1("dark");
-                    } else {
-                        let _ = html.class_list().remove_1("dark");
-                    }
-                }
-            }
-        })
-    };
-
-    let theme_context = ThemeContext {
-        dark_mode: *dark_mode,
-        toggle_theme,
-    };
-
     html! {
         <BrowserRouter>
-            <ContextProvider<ThemeContext> context={theme_context}>
-                <div class={classes!("min-h-screen", "transition-colors", "duration-300",
-                               if *dark_mode { "dark" } else { "" })}>
+            <ThemeProvider>
+                <NavProvider>
                     <Switch<Route> render={switch} />
-                </div>
-            </ContextProvider<ThemeContext>>
+                </NavProvider>
+            </ThemeProvider>
         </BrowserRouter>
     }
 }
@@ -98,6 +66,8 @@ pub fn switch(route: Route) -> Html {
         Route::Projects => html! { <Layout><Projects /></Layout> },
         Route::Blog => html! { <Layout><Blog /></Layout> },
         Route::BlogPost { id } => html! { <Layout><BlogPost {id} /></Layout> },
+        Route::Admin => html! { <Layout><Admin /></Layout> },
+        Route::Login => html! { <Layout><Login /></Layout> },
         Route::NotFound => html! { <div class="not-found"><h1>{"404 - Not Found"}</h1></div> },
     }
 }

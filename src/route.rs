@@ -12,6 +12,10 @@ pub enum Route {
     BlogPost { id: String },
     #[at("/contact")]
     Contact,
+    #[at("/admin/login")]
+    Login,
+    #[at("/admin")]
+    Admin,
     #[not_found]
     #[at("/404")]
     NotFound,

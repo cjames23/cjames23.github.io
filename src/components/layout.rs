@@ -1,3 +1,4 @@
+// src/components/layout.rs
 use crate::app::ThemeContext;
 use crate::components::footer::Footer;
 use crate::components::header::Header;
@@ -7,45 +8,56 @@ use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct LayoutProps {
-    #[prop_or_default]
     pub children: Children,
 }
 
 #[function_component(Layout)]
 pub fn layout(props: &LayoutProps) -> Html {
-    let collapsed = use_state(|| false);
-    let theme_context = use_context::<ThemeContext>().expect("Theme context not found");
+    let nav_context = use_context::<NavContext>().expect("NavContext not found");
+    let theme_context = use_context::<ThemeContext>().expect("ThemeContext not found");
+
     let dark_mode = theme_context.dark_mode;
+    let collapsed = nav_context.collapsed;
 
-    let toggle_collapsed = {
-        let collapsed = collapsed.clone();
-        Callback::from(move |_| collapsed.set(!*collapsed))
+    // Define color palette based on theme
+    let bg_primary = if dark_mode {
+        "bg-[#3A4D39]"
+    } else {
+        "bg-[#ECE3CE]"
     };
-
-    let nav_context = NavContext {
-        collapsed: *collapsed,
-        toggle_collapsed,
+    let bg_secondary = if dark_mode {
+        "bg-[#4F6F52]"
+    } else {
+        "bg-[#739072]"
     };
-
-    let content_margin = if *collapsed { "ml-16" } else { "ml-64" };
+    let text_primary = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#3A4D39]"
+    };
 
     html! {
-        <ContextProvider<NavContext> context={nav_context}>
+        <div class={classes!("h-screen", "flex", "overflow-hidden", bg_primary, text_primary)}>
+            <Nav />
             <div class={classes!(
-                "flex", "flex-col", "h-screen",
-                if dark_mode { "dark" } else { "" }
+                "flex-grow",
+                "flex",
+                "flex-col",
+                "transition-all",
+                "duration-300",
+                if collapsed { "ml-16" } else { "ml-64" }
             )}>
-                <Nav />
-                <div class={classes!("transition-all", "duration-300", content_margin, "flex", "flex-col", "h-screen")}>
-                    <Header />
-                    <main class={classes!("flex-grow", "overflow-y-auto", "p-6", "bg-white", "dark:bg-gray-900")}>
-                        <div class="container mx-auto">
-                            { for props.children.iter() }
-                        </div>
-                    </main>
-                    <Footer/>
-                </div>
+                // Fixed header
+                <Header />
+
+                // Scrollable main content
+                <main class="flex-grow overflow-y-auto">
+                    {props.children.clone()}
+                </main>
+
+                // Fixed footer
+                <Footer class={classes!(bg_secondary, text_primary)} />
             </div>
-        </ContextProvider<NavContext>>
+        </div>
     }
 }

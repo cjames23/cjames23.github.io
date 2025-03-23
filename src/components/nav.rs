@@ -2,104 +2,209 @@
 use crate::app::ThemeContext;
 use crate::components::nav_context::NavContext;
 use crate::route::Route;
-use gloo::events::EventListener;
-use web_sys::HtmlElement;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
 #[function_component(Nav)]
 pub fn nav() -> Html {
-    let theme_context = use_context::<ThemeContext>().expect("Theme context not found");
-    let nav_ref = use_node_ref();
     let nav_context = use_context::<NavContext>().expect("NavContext not found");
-    let collapsed = nav_context.collapsed; // This is already a bool, no need to dereference
+    let theme_context = use_context::<ThemeContext>().expect("ThemeContext not found");
+
+    let collapsed = nav_context.collapsed;
 
     let toggle_collapsed = {
         let toggle = nav_context.toggle_collapsed.clone();
         Callback::from(move |_| toggle.emit(()))
     };
 
-    // Toggle theme
+    // Convert toggle_theme Callback<()> to Callback<MouseEvent>
     let toggle_theme = {
-        let toggle_theme = theme_context.toggle_theme.clone();
-        Callback::from(move |_| toggle_theme.emit(()))
+        let theme_toggle = theme_context.toggle_theme.clone();
+        Callback::from(move |_: MouseEvent| theme_toggle.emit(()))
     };
 
-    // Menu items
-    let menu_items = vec![
-        (Route::Home, "Home", "home"),
-        (Route::Projects, "Projects", "code"),
-        (Route::Blog, "Blog", "book"),
-        (Route::Contact, "Contact Me", "envelope"),
-    ];
+    let dark_mode = theme_context.dark_mode;
 
-    let sidebar_width = if collapsed { "w-16" } else { "w-64" };
-    let icon_transform = if collapsed { "" } else { "rotate-180" };
+    // Define color palette based on theme
+    let bg_primary = if dark_mode {
+        "bg-[#3A4D39]"
+    } else {
+        "bg-[#ECE3CE]"
+    };
+    let bg_secondary = if dark_mode {
+        "bg-[#4F6F52]"
+    } else {
+        "bg-[#739072]"
+    };
+    let text_primary = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#3A4D39]"
+    };
+    let text_secondary = if dark_mode {
+        "text-[#739072]"
+    } else {
+        "text-[#4F6F52]"
+    };
+    let hover_bg = if dark_mode {
+        "hover:bg-[#5d8361]"
+    } else {
+        "hover:bg-[#86a684]"
+    };
+
+    let active_route = nav_context.active_route.clone();
+
+    // Set the active route whenever the location changes
+    let location = use_location().unwrap();
+    let route_str = location.path().to_string();
+
+    {
+        let set_active_route = nav_context.set_active_route.clone();
+        use_effect_with(route_str.clone(), move |route| {
+            set_active_route.emit(route.clone());
+            || ()
+        });
+    }
 
     html! {
-        <div ref={nav_ref.clone()} class={classes!("sidebar", sidebar_width, "transition-all", "duration-300", "ease-in-out",
-            "h-screen", "fixed", "top-0", "left-0", "z-40", "flex", "flex-col",
-            "bg-gray-800", "dark:bg-gray-900", "text-white", "shadow-lg")}>
-
-            // Logo and collapse button
-            <div class="flex items-center justify-between p-4 border-b border-gray-700">
-                <div class={classes!("logo", if collapsed { "hidden" } else { "" })}>
-                    <h1 class="text-xl font-bold">{"Cary Hawkins"}</h1>
-                </div>
-                <button
-                    onclick={toggle_collapsed}
-                    class="p-2 rounded-full hover:bg-gray-700 focus:outline-none"
-                    title="Toggle sidebar"
-                >
-                    <svg class={classes!("w-6", "h-6", "transition-transform", icon_transform)}
-                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-                    </svg>
-                </button>
-            </div>
-
-            // Navigation menu
-            <div class="flex flex-col flex-grow py-4 overflow-y-auto">
-                {
-                    menu_items.into_iter().map(|(route, label, icon)| {
-                        let to = route.clone();
-                        html! {
-                            <Link<Route> to={to} classes={classes!(
-                                "flex", "items-center", "px-4", "py-3", "text-lg",
-                                "hover:bg-gray-700", "transition-colors", "duration-200",
-                                "focus:outline-none", "focus:bg-gray-700",
-                            )}>
-                                <span class="inline-flex items-center justify-center w-8 h-8">
-                                    <i class={format!("fas fa-{}", icon)}></i>
-                                </span>
-                                if !collapsed {
-                                    <span class="ml-3">{label}</span>
-                                }
-                            </Link<Route>>
-                        }
-                    }).collect::<Html>()
-                }
-            </div>
-
-            // Theme toggle and user section
-            <div class="p-4 border-t border-gray-700">
-                <button
-                    onclick={toggle_theme}
-                    class="flex items-center justify-center w-full p-2 text-sm font-medium rounded-md hover:bg-gray-700 focus:outline-none"
-                >
-                    if theme_context.dark_mode {
-                        <i class="fas fa-sun mr-2"></i>
-                        if !collapsed {
-                            <span>{"Light Mode"}</span>
-                        }
-                    } else {
-                        <i class="fas fa-moon mr-2"></i>
-                        if !collapsed {
-                            <span>{"Dark Mode"}</span>
-                        }
+        <nav class={classes!(
+            "transition-all", "duration-300", "ease-in-out",
+            bg_secondary,
+            if collapsed { "w-16" } else { "w-64" },
+            "fixed", "h-screen", "overflow-y-auto", "z-10"
+        )}>
+            <div class="flex flex-col h-full">
+                <div class={classes!("flex", "items-center", "p-4", "border-b", "border-opacity-20", "border-slate-400")}>
+                    if !collapsed {
+                        <span class={classes!("font-bold", "text-xl", text_primary)}>{"Portfolio"}</span>
                     }
-                </button>
+                    <button
+                        class={classes!("ml-auto", text_primary, "hover:opacity-80", "transition-all")}
+                        onclick={toggle_collapsed}
+                    >
+                        if collapsed {
+                            <i class="fas fa-chevron-right"></i>
+                        } else {
+                            <i class="fas fa-chevron-left"></i>
+                        }
+                    </button>
+                </div>
+
+                <div class="flex flex-col py-4">
+                    <NavLink
+                        to={Route::Home}
+                        classes={get_link_classes(&active_route, "/", collapsed,
+               if dark_mode { "text-[#ECE3CE]" } else { "text-[#3A4D39]" },
+               if dark_mode { "hover:bg-[#5d8361]" } else { "hover:bg-[#86a684]" })}
+                        icon="fas fa-home"
+                        label="Home"
+                        {collapsed}
+                    />
+                    <NavLink
+                        to={Route::Projects}
+                        classes={get_link_classes(&active_route, "/", collapsed,
+               if dark_mode { "text-[#ECE3CE]" } else { "text-[#3A4D39]" },
+               if dark_mode { "hover:bg-[#5d8361]" } else { "hover:bg-[#86a684]" })}
+                        icon="fas fa-code"
+                        label="Projects"
+                        {collapsed}
+                    />
+                    <NavLink
+                        to={Route::Blog}
+                        classes={get_link_classes(&active_route, "/", collapsed,
+               if dark_mode { "text-[#ECE3CE]" } else { "text-[#3A4D39]" },
+               if dark_mode { "hover:bg-[#5d8361]" } else { "hover:bg-[#86a684]" })}
+                        icon="fas fa-blog"
+                        label="Blog"
+                        {collapsed}
+                    />
+                    <NavLink
+                        to={Route::Contact}
+                        classes={get_link_classes(&active_route, "/", collapsed,
+               if dark_mode { "text-[#ECE3CE]" } else { "text-[#3A4D39]" },
+               if dark_mode { "hover:bg-[#5d8361]" } else { "hover:bg-[#86a684]" })}
+                        icon="fas fa-envelope"
+                        label="Contact"
+                        {collapsed}
+                    />
+                    <NavLink
+                        to={Route::Admin}
+                        classes={get_link_classes(&active_route, "/", collapsed,
+               if dark_mode { "text-[#ECE3CE]" } else { "text-[#3A4D39]" },
+               if dark_mode { "hover:bg-[#5d8361]" } else { "hover:bg-[#86a684]" })}                        icon="fas fa-lock"
+                        label="Admin"
+                        {collapsed}
+                    />
+                </div>
+
+                <div class="mt-auto mb-4 px-4">
+                    <button
+                        onclick={toggle_theme}
+                        class={classes!(
+                            "flex", "items-center", "p-3", "rounded-md", "w-full",
+                            text_primary, hover_bg, "transition-all"
+                        )}
+                    >
+                        <i class={if dark_mode {"fas fa-sun"} else {"fas fa-moon"}}></i>
+                        if !collapsed {
+                            <span class="ml-3">
+                                {if dark_mode {"Light Mode"} else {"Dark Mode"}}
+                            </span>
+                        }
+                    </button>
+                </div>
             </div>
-        </div>
+        </nav>
     }
+}
+
+#[derive(Properties, PartialEq)]
+struct NavLinkProps {
+    to: Route,
+    classes: Classes,
+    icon: &'static str,
+    label: &'static str,
+    collapsed: bool,
+}
+
+#[function_component(NavLink)]
+fn nav_link(props: &NavLinkProps) -> Html {
+    html! {
+        <Link<Route> to={props.to.clone()} classes={props.classes.clone()}>
+            <i class={props.icon}></i>
+            if !props.collapsed {
+                <span class="ml-3">{props.label}</span>
+            }
+        </Link<Route>>
+    }
+}
+
+fn get_link_classes(
+    active_route: &str,
+    path: &str,
+    collapsed: bool,
+    text_color: &'static str,
+    hover_bg: &'static str,
+) -> Classes {
+    classes!(
+        "flex",
+        "items-center",
+        if collapsed {
+            "justify-center"
+        } else {
+            "justify-start"
+        },
+        "p-3",
+        "my-1",
+        "mx-2",
+        "rounded-md",
+        "transition-all",
+        text_color,
+        hover_bg,
+        if active_route == path {
+            "bg-opacity-20 bg-white"
+        } else {
+            ""
+        }
+    )
 }
