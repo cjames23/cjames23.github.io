@@ -1,10 +1,10 @@
+use crate::app::ThemeContext;
 use crate::components::nav::Nav;
 use crate::data::blog::BlogDb;
 use crate::route::Route;
 use patternfly_yew::prelude::*;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use crate::app::ThemeContext;
 
 #[derive(Properties, PartialEq)]
 pub struct BlogPostProps {
