@@ -79,3 +79,9 @@ body.dark {
 .sidebar.w-16 ~ .footer {
   margin-left: 4rem;
 }
+
+.tag-icons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
