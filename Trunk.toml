@@ -13,7 +13,7 @@ watch = [
 [clean]
 dist = "dist"
 
-[[hooks]]
-stage = "post_build"
-command = "sh"
-command_arguments = ["-c", "npx tailwindcss -i ./assets/tailwind.css -o ./dist/.stage/index.css"]
+[hooks]
+pre_build = [
+    "npx tailwindcss -i ./assets/tailwind.css -o ./assets/min-tailwind.css --minify"
+]
