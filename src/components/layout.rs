@@ -1,8 +1,8 @@
 // src/components/layout.rs
-use yew::prelude::*;
-use crate::components::nav::Nav;
-use crate::components::footer::Footer;
 use crate::app::ThemeContext;
+use crate::components::footer::Footer;
+use crate::components::nav::Nav;
+use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct LayoutProps {

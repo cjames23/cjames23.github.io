@@ -1,9 +1,9 @@
 // src/components/nav.rs
+use crate::app::{Route, ThemeContext};
+use gloo::events::EventListener;
+use web_sys::HtmlElement;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use crate::app::{Route, ThemeContext};
-use web_sys::HtmlElement;
-use gloo::events::EventListener;
 
 #[function_component(Nav)]
 pub fn nav() -> Html {
@@ -35,10 +35,10 @@ pub fn nav() -> Html {
     let icon_transform = if *collapsed { "" } else { "rotate-180" };
 
     html! {
-        <div ref={nav_ref.clone()} class={classes!("sidebar", sidebar_width, "transition-all", "duration-300", "ease-in-out", 
-            "h-screen", "fixed", "top-0", "left-0", "z-40", "flex", "flex-col", 
+        <div ref={nav_ref.clone()} class={classes!("sidebar", sidebar_width, "transition-all", "duration-300", "ease-in-out",
+            "h-screen", "fixed", "top-0", "left-0", "z-40", "flex", "flex-col",
             "bg-gray-800", "dark:bg-gray-900", "text-white", "shadow-lg")}>
-            
+
             // Logo and collapse button
             <div class="flex items-center justify-between p-4 border-b border-gray-700">
                 <div class={classes!("logo", if *collapsed { "hidden" } else { "" })}>
@@ -55,7 +55,7 @@ pub fn nav() -> Html {
                     </svg>
                 </button>
             </div>
-            
+
             // Navigation menu
             <div class="flex flex-col flex-grow py-4 overflow-y-auto">
                 {
@@ -63,7 +63,7 @@ pub fn nav() -> Html {
                         let to = route.clone();
                         html! {
                             <Link<Route> to={to} classes={classes!(
-                                "flex", "items-center", "px-4", "py-3", "text-lg", 
+                                "flex", "items-center", "px-4", "py-3", "text-lg",
                                 "hover:bg-gray-700", "transition-colors", "duration-200",
                                 "focus:outline-none", "focus:bg-gray-700",
                             )}>
@@ -78,7 +78,7 @@ pub fn nav() -> Html {
                     }).collect::<Html>()
                 }
             </div>
-            
+
             // Theme toggle and user section
             <div class="p-4 border-t border-gray-700">
                 <button

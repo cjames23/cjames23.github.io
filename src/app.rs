@@ -1,12 +1,12 @@
+use std::rc::Rc;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use std::rc::Rc;
 
+use crate::components::layout::Layout;
 use crate::pages::blog::Blog;
+use crate::pages::contact::Contact;
 use crate::pages::home::Home;
 use crate::pages::projects::Projects;
-use crate::pages::contact::Contact;
-use crate::components::layout::Layout;
 
 // Theme context
 #[derive(Clone, Debug, PartialEq)]
@@ -31,7 +31,10 @@ impl Reducible for ThemeState {
 
     fn reduce(self: Rc<Self>, action: Self::Action) -> Rc<Self> {
         match action {
-            ThemeAction::Toggle => Self { dark_mode: !self.dark_mode }.into(),
+            ThemeAction::Toggle => Self {
+                dark_mode: !self.dark_mode,
+            }
+            .into(),
         }
     }
 }
