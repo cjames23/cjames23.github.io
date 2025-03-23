@@ -72,7 +72,7 @@ pub fn home_function() -> Html {
                         <CardBody>
                             <div class="flex flex-wrap gap-2">
                                 {
-                                    ["Rust", "Python", "JavaScript", "AWS", "Database Design", "Data Engineering"].iter().map(|skill| {
+                                    ["Rust", "Python", "Java", "AWS", "Database Design", "Data Engineering", "Gradle", "Kotlin", "Android", "Scala", "Python CFFI", "PyO3 and Maturin"].iter().map(|skill| {
                                         html! {
                                             <span class={classes!(bg_primary, text_primary, "px-3", "py-1", "rounded", "text-sm")}>
                                                 {skill}
