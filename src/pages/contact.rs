@@ -1,6 +1,7 @@
 // src/pages/contact.rs
 use crate::app::ThemeContext;
 use gloo::net::http::Request;
+use patternfly_yew::prelude::*;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -16,9 +17,62 @@ struct FormData {
 #[function_component(Contact)]
 pub fn contact() -> Html {
     let theme_context = use_context::<ThemeContext>().expect("Theme context not found");
+    let dark_mode = theme_context.dark_mode;
     let form_data = use_state(|| FormData::default());
     let submitting = use_state(|| false);
     let status_message = use_state(|| None::<(String, bool)>);
+
+    // Define color palette based on theme
+    let bg_primary = if dark_mode {
+        "bg-[#3A4D39]"
+    } else {
+        "bg-[#ECE3CE]"
+    };
+    let text_primary = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#3A4D39]"
+    };
+    let card_bg = if dark_mode {
+        "bg-[#4F6F52]"
+    } else {
+        "bg-[#739072]"
+    };
+    let card_text = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#ECE3CE]"
+    };
+    let input_bg = if dark_mode {
+        "bg-[#3A4D39]"
+    } else {
+        "bg-[#ECE3CE]"
+    };
+    let input_border = if dark_mode {
+        "border-[#ECE3CE]"
+    } else {
+        "border-[#3A4D39]"
+    };
+    let input_text = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#3A4D39]"
+    };
+    let button_bg = if dark_mode {
+        "bg-[#3A4D39]"
+    } else {
+        "bg-[#3A4D39]"
+    };
+    let button_text = if dark_mode {
+        "text-[#ECE3CE]"
+    } else {
+        "text-[#ECE3CE]"
+    };
+    let button_hover = if dark_mode {
+        "hover:bg-opacity-80"
+    } else {
+        "hover:bg-opacity-80"
+    };
 
     let onsubmit = {
         let form_data = form_data.clone();
@@ -112,78 +166,149 @@ pub fn contact() -> Html {
     };
 
     html! {
-        <div class="page-container p-8">
-            <h1 class="text-3xl font-bold mb-6">{"Contact Me"}</h1>
+        <div class={classes!("page-container", "p-8", text_primary)}>
+            <Breadcrumb>
+                <BreadcrumbItem href="/">{"Home"}</BreadcrumbItem>
+                <BreadcrumbItem href="/contact">{"Contact"}</BreadcrumbItem>
+            </Breadcrumb>
 
-            <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-                <form {onsubmit} class="space-y-4">
-                    {
-                        if let Some((message, is_success)) = &*status_message {
-                            let class = if *is_success {
-                                "p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
-                            } else {
-                                "p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
-                            };
-                            html! { <div class={class}>{message}</div> }
-                        } else {
-                            html! {}
-                        }
-                    }
+            <h1 class="text-3xl font-bold my-6">{"Contact Me"}</h1>
 
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{"Name"}</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={form_data.name.clone()}
-                            onchange={&handle_input}
-                            required=true
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        />
-                    </div>
-
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{"Email"}</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={form_data.email.clone()}
-                            onchange={&handle_input}
-                            required=true
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        />
-                    </div>
-
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{"Message"}</label>
-                        <textarea
-                            id="message"
-                            name="message"
-                            value={form_data.message.clone()}
-                            onchange={&handle_input}
-                            required=true
-                            rows="4"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        ></textarea>
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={*submitting}
-                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                    >
+            <Card class={classes!(card_bg, card_text, "shadow-md", "rounded-lg")}>
+                <CardTitle>{"Send a Message"}</CardTitle>
+                <CardBody>
+                    <form {onsubmit} class="space-y-4">
                         {
-                            if *submitting {
-                                html! { <span>{"Sending..."}</span> }
+                            if let Some((message, is_success)) = &*status_message {
+                                let status_bg = if *is_success {
+                                    if dark_mode { "bg-green-700" } else { "bg-green-600" }
+                                } else {
+                                    if dark_mode { "bg-red-700" } else { "bg-red-600" }
+                                };
+
+                                html! {
+                                    <div class={classes!("p-4", "rounded-lg", status_bg, "text-white")}>
+                                        {message}
+                                    </div>
+                                }
                             } else {
-                                html! { <span>{"Send Message"}</span> }
+                                html! {}
                             }
                         }
-                    </button>
-                </form>
-            </div>
+
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-1">{"Name"}</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={form_data.name.clone()}
+                                onchange={&handle_input}
+                                required=true
+                                class={classes!(
+                                    "mt-1",
+                                    "block",
+                                    "w-full",
+                                    "rounded-md",
+                                    "border",
+                                    input_border,
+                                    input_bg,
+                                    input_text,
+                                    "shadow-sm",
+                                    "focus:ring-2",
+                                    "focus:ring-opacity-50",
+                                    "p-2"
+                                )}
+                            />
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-1">{"Email"}</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={form_data.email.clone()}
+                                onchange={&handle_input}
+                                required=true
+                                class={classes!(
+                                    "mt-1",
+                                    "block",
+                                    "w-full",
+                                    "rounded-md",
+                                    "border",
+                                    input_border,
+                                    input_bg,
+                                    input_text,
+                                    "shadow-sm",
+                                    "focus:ring-2",
+                                    "focus:ring-opacity-50",
+                                    "p-2"
+                                )}
+                            />
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-1">{"Message"}</label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                value={form_data.message.clone()}
+                                onchange={&handle_input}
+                                required=true
+                                rows="4"
+                                class={classes!(
+                                    "mt-1",
+                                    "block",
+                                    "w-full",
+                                    "rounded-md",
+                                    "border",
+                                    input_border,
+                                    input_bg,
+                                    input_text,
+                                    "shadow-sm",
+                                    "focus:ring-2",
+                                    "focus:ring-opacity-50",
+                                    "p-2",
+                                    "resize-y"
+                                )}
+                            ></textarea>
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={*submitting}
+                            class={classes!(
+                                "inline-flex",
+                                "items-center",
+                                "px-4",
+                                "py-2",
+                                "border",
+                                "border-transparent",
+                                "text-sm",
+                                "font-medium",
+                                "rounded-md",
+                                "shadow-sm",
+                                button_bg,
+                                button_text,
+                                button_hover,
+                                "focus:outline-none",
+                                "focus:ring-2",
+                                "disabled:opacity-50",
+                                "transition-colors"
+                            )}
+                        >
+                            {
+                                if *submitting {
+                                    html! { <span>{"Sending..."}</span> }
+                                } else {
+                                    html! { <span>{"Send Message"}</span> }
+                                }
+                            }
+                        </button>
+                    </form>
+                </CardBody>
+            </Card>
         </div>
     }
 }
