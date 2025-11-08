@@ -16,7 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cargo fmt --all -- --check
+
+      - name: Install rustfmt component
+        run: rustup component add --toolchain 1.77.2-x86_64-unknown-linux-gnu rustfmt
+
+      - name: Check code formatting
+        run: cargo fmt --all -- --check
 
   release:
     needs: [test, format]
