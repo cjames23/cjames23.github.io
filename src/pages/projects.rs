@@ -48,6 +48,22 @@ pub fn projects() -> Html {
             </Breadcrumb>
 
             <h1 class="text-3xl font-bold mt-4 mb-6">{"Projects"}</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="p-2">
+                                <Card class={classes!(card_bg, card_text, "shadow-md", "rounded-lg")}>
+                                    <CardTitle>{"Co-maintainer of Hatch"}</CardTitle>
+                                    <CardBody>
+                                        <a class={classes!(link_color, link_hover, "underline")}
+                                           href="https://github.com/pypa/hatch">
+                                            {"I am a co-maintainer of Hatch, a modern Python package manager focused on extensibility and performance. I helped to release a long awaited feature for monorepo workspace support. "}
+                                        </a>
+                                        <a class={classes!(link_color, link_hover, "underling")}
+                                           href="https://github.com/pypa/hatch/pull/2073">
+                                           {"View the PR for workspaces on Github"}
+                                        </a>
+                                    </CardBody>
+                                </Card>
+                            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="p-2">
