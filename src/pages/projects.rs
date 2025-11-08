@@ -49,7 +49,7 @@ pub fn projects() -> Html {
 
             <h1 class="text-3xl font-bold mt-4 mb-6">{"Projects"}</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <div class="p-2">
+                <div class="p-2">
                                 <Card class={classes!(card_bg, card_text, "shadow-md", "rounded-lg")}>
                                     <CardTitle>{"Co-maintainer of Hatch"}</CardTitle>
                                     <CardBody>
@@ -64,8 +64,6 @@ pub fn projects() -> Html {
                                     </CardBody>
                                 </Card>
                             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="p-2">
                     <Card class={classes!(card_bg, card_text, "shadow-md", "rounded-lg")}>
                         <CardTitle>{"Contributor to Apache Airflow"}</CardTitle>
