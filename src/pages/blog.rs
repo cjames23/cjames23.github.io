@@ -31,11 +31,6 @@ pub fn blog() -> Html {
     } else {
         "text-[#3A4D39]"
     };
-    let text_secondary = if dark_mode {
-        "text-[#739072]"
-    } else {
-        "text-[#4F6F52]"
-    };
     let border_color = if dark_mode {
         "border-[#739072]"
     } else {
@@ -91,94 +86,55 @@ pub fn blog() -> Html {
                                 </Breadcrumb>
                             </div>
 
-                            <div class={classes!("mb-6", "p-4", "rounded-lg", bg_secondary, "shadow")}>
-                                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
-                                    <h1 class={classes!("text-2xl", "font-bold", text_primary)}>{"Blog Posts"}</h1>
-
-                                    <div class="flex flex-col sm:flex-row items-start sm:items-center w-full lg:w-auto space-y-3 sm:space-y-0 sm:space-x-4">
-                                        <div class="relative flex-grow sm:w-64">
-                                            <input
-                                                type="text"
-                                                placeholder="Search posts..."
-                                                class={classes!(
-                                                    "w-full", "px-4", "py-2", "pl-10", "rounded-md",
-                                                    bg_primary, text_primary, "border", border_color,
-                                                    "focus:outline-none", "focus:ring-2", "focus:ring-opacity-50",
-                                                    "focus:ring-[#ECE3CE]", "placeholder-opacity-75"
-                                                )}
-                                            />
-                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                                <i class={classes!("fas", "fa-search", text_primary, "opacity-70")}></i>
-                                            </div>
-                                        </div>
-
-                                        <select
-                                            class={classes!(
-                                                "px-4", "py-2", "rounded-md", "appearance-none",
-                                                bg_primary, text_primary, "border", border_color,
-                                                "focus:outline-none", "focus:ring-2", "focus:ring-opacity-50",
-                                                "focus:ring-[#ECE3CE]", "pr-8"
-                                            )}>
-                                            <option value="">{"All Tags"}</option>
-                                            <option value="rust">{"Rust"}</option>
-                                            <option value="yew">{"Yew"}</option>
-                                            <option value="web">{"Web"}</option>
-                                            <option value="tutorial">{"Tutorial"}</option>
-                                        </select>
-
-                                        <select
-                                            class={classes!(
-                                                "px-4", "py-2", "rounded-md", "appearance-none",
-                                                bg_primary, text_primary, "border", border_color,
-                                                "focus:outline-none", "focus:ring-2", "focus:ring-opacity-50",
-                                                "focus:ring-[#ECE3CE]", "pr-8"
-                                            )}>
-                                            <option value="newest">{"Newest First"}</option>
-                                            <option value="oldest">{"Oldest First"}</option>
-                                        </select>
-
-                                        <button
-                                            class={classes!(
-                                                "px-4", "py-2", "rounded-md", "flex", "items-center",
-                                                bg_primary, text_primary, "hover:opacity-90", "transition-opacity"
-                                            )}
-                                        >
-                                            <i class="fas fa-th-large mr-2"></i>
-                                            {"View"}
-                                        </button>
-                                    </div>
-                                </div>
+                            <div class={classes!("mb-8", "p-5", "rounded-lg", bg_secondary, "shadow")}>
+                                <h1 class={classes!("text-3xl", "font-bold", "mb-2", text_primary)}>{"Blog"}</h1>
+                                <p class={classes!(text_primary, "opacity-90", "max-w-3xl")}>
+                                    {"Notes on software, philosophy, and the strange places where engineering meets theory."}
+                                </p>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="space-y-6">
                                 {
                                     for blog_db.get_all_posts().into_iter().map(|post| {
                                         let post_id = post.id.clone();
+                                        let post_slug = post.slug();
                                         let formatted_date = post.created_at.format("%B %d, %Y").to_string();
                                         let comment_count = comment_db.get_comments(&post_id).len();
+                                        let excerpt = post
+                                            .content
+                                            .replace('\u{2028}', " ")
+                                            .replace('\n', " ")
+                                            .chars()
+                                            .take(280)
+                                            .collect::<String>();
 
                                         html! {
-                                            <div class={classes!(
-                                                "rounded-lg", "overflow-hidden", "shadow-lg", "flex", "flex-col",
-                                                bg_secondary, "border", border_color,
-                                                "transition-transform", "duration-300", "hover:scale-[1.02]"
+                                            <article class={classes!(
+                                                "rounded-lg", "shadow-lg", "p-6", "md:p-8",
+                                                bg_secondary, "border", border_color
                                             )}>
-                                                <div class={classes!(bg_primary, "h-40", "flex", "items-center", "justify-center")}>
-                                                    <i class={classes!("fas", "fa-newspaper", "text-5xl", text_secondary)}></i>
+                                                <div class={classes!("text-sm", "mb-3", text_primary, "opacity-80", "flex", "flex-wrap", "items-center", "gap-3")}>
+                                                    <span class="inline-flex items-center">
+                                                        <i class="far fa-calendar-alt mr-2"></i>
+                                                        {formatted_date}
+                                                    </span>
+                                                    <span class="inline-flex items-center">
+                                                        <i class="fas fa-user mr-2"></i>
+                                                        {&post.author}
+                                                    </span>
                                                 </div>
 
-                                                <div class="p-6 flex-grow">
+                                                <div class="mb-4">
                                                     <Link<Route>
-                                                        to={Route::BlogPost { id: post_id.clone() }}
-                                                        classes={classes!("text-xl", "font-semibold", "block", "mb-2", text_primary, "hover:underline")}
+                                                        to={Route::BlogPost { slug: post_slug.clone() }}
+                                                        classes={classes!("text-2xl", "md:text-3xl", "font-bold", "leading-tight", "block", "mb-3", text_primary, "hover:underline")}
                                                     >
                                                         {&post.title}
                                                     </Link<Route>>
-
-                                                    <div class={classes!("mb-4", text_primary, "opacity-80")}>
-                                                        {post.content.chars().take(120).collect::<String>()}
+                                                    <p class={classes!("mb-4", text_primary, "opacity-90", "leading-7")}>
+                                                        {excerpt}
                                                         {"..."}
-                                                    </div>
+                                                    </p>
 
                                                     <div class="flex flex-wrap gap-2 mb-4">
                                                         {
@@ -201,32 +157,10 @@ pub fn blog() -> Html {
                                                 </div>
 
                                                 <div class={classes!(
-                                                    "px-6", "py-4", "border-t", border_color,
-                                                    "flex", "justify-between", "items-center"
+                                                    "pt-4", "border-t", border_color,
+                                                    "flex", "flex-wrap", "justify-between", "gap-3", "items-center"
                                                 )}>
-                                                    <div class={classes!("flex", "items-center", text_primary)}>
-                                                        <div class={classes!("h-8", "w-8", "rounded-full", bg_primary, "flex", "items-center", "justify-center", "mr-2")}>
-                                                            <i class="fas fa-user"></i>
-                                                        </div>
-                                                        <span>{&post.author}</span>
-                                                    </div>
-
-                                                    <div class={classes!(text_primary, "opacity-80", "text-sm")}>
-                                                        <i class="far fa-calendar-alt mr-1"></i>
-                                                        {formatted_date}
-                                                    </div>
-                                                </div>
-
-                                                <div class={classes!(
-                                                    "px-6", "py-3", "bg-opacity-50", bg_primary,
-                                                    "flex", "justify-between", "items-center"
-                                                )}>
-                                                    <div class="flex space-x-4">
-                                                        <button class={classes!(text_primary, "hover:opacity-80")}>
-                                                            <i class="far fa-heart mr-1"></i>
-                                                            {"Like"}
-                                                        </button>
-                                                        <button class={classes!(text_primary, "hover:opacity-80")}
+                                                    <button class={classes!(text_primary, "hover:opacity-80")}
                                                         onclick={
                                                             let post_id = post.id.clone();
                                                             let handle_comment_click = handle_comment_click.clone();
@@ -234,53 +168,18 @@ pub fn blog() -> Html {
                                                         }>
                                                             <i class="far fa-comment mr-1"></i>
                                                             {format!("Comment ({})", comment_count)}
-                                                        </button>
-                                                    </div>
+                                                    </button>
                                                     <Link<Route>
-                                                        to={Route::BlogPost { id: post_id }}
-                                                        classes={classes!("px-4", "py-1", "rounded", bg_secondary, text_primary, "hover:opacity-90")}
+                                                        to={Route::BlogPost { slug: post_slug }}
+                                                        classes={classes!("px-4", "py-2", "rounded", bg_primary, text_primary, "font-medium", "hover:opacity-90")}
                                                     >
-                                                        {"Read More"}
+                                                        {"Read Article"}
                                                     </Link<Route>>
                                                 </div>
-                                            </div>
+                                            </article>
                                         }
                                     })
                                 }
-                            </div>
-
-                            <div class={classes!("mt-8", "flex", "justify-center")}>
-                                <nav>
-                                    <ul class="flex space-x-2">
-                                        <li>
-                                            <button class={classes!(
-                                                "px-3", "py-1", "rounded", bg_secondary, text_primary, "hover:opacity-90",
-                                                "flex", "items-center"
-                                            )}>
-                                                <i class="fas fa-chevron-left mr-1"></i>
-                                                {"Previous"}
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class={classes!(bg_primary, text_secondary, "px-3", "py-1", "rounded", "font-bold")}>{"1"}</button>
-                                        </li>
-                                        <li>
-                                            <button class={classes!(bg_secondary, text_primary, "px-3", "py-1", "rounded")}>{"2"}</button>
-                                        </li>
-                                        <li>
-                                            <button class={classes!(bg_secondary, text_primary, "px-3", "py-1", "rounded")}>{"3"}</button>
-                                        </li>
-                                        <li>
-                                            <button class={classes!(
-                                                "px-3", "py-1", "rounded", bg_secondary, text_primary, "hover:opacity-90",
-                                                "flex", "items-center"
-                                            )}>
-                                                {"Next"}
-                                                <i class="fas fa-chevron-right ml-1"></i>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </nav>
                             </div>
                         </div>
                     </SplitItem>
