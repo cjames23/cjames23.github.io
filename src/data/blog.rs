@@ -1,10 +1,7 @@
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
-use std::cell::RefCell;
 use std::collections::HashMap;
-use std::rc::Rc;
 use uuid::Uuid;
-use yew::prelude::*;
 
 // Blog Post model
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -29,6 +26,10 @@ impl BlogPost {
             updated_at: None,
             tags,
         }
+    }
+
+    pub fn slug(&self) -> String {
+        slugify_title(&self.title)
     }
 }
 
@@ -70,8 +71,14 @@ impl BlogDb {
         self.posts.get(id)
     }
 
+    pub fn get_post_by_slug(&self, slug: &str) -> Option<&BlogPost> {
+        self.posts.values().find(|post| post.slug() == slug)
+    }
+
     pub fn get_all_posts(&self) -> Vec<&BlogPost> {
-        self.posts.values().collect()
+        let mut posts: Vec<&BlogPost> = self.posts.values().collect();
+        posts.sort_by(|a, b| b.created_at.cmp(&a.created_at));
+        posts
     }
 
     pub fn update_post(
@@ -116,4 +123,21 @@ impl BlogDb {
             .filter(|post| post.tags.iter().any(|t| t.to_lowercase() == tag))
             .collect()
     }
+}
+
+fn slugify_title(title: &str) -> String {
+    let mut slug = String::new();
+    let mut previous_was_dash = false;
+
+    for ch in title.trim().to_lowercase().chars() {
+        if ch.is_ascii_alphanumeric() {
+            slug.push(ch);
+            previous_was_dash = false;
+        } else if !previous_was_dash {
+            slug.push('-');
+            previous_was_dash = true;
+        }
+    }
+
+    slug.trim_matches('-').to_string()
 }

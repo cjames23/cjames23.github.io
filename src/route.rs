@@ -8,8 +8,8 @@ pub enum Route {
     Projects,
     #[at("/blog")]
     Blog,
-    #[at("/blog/:id")]
-    BlogPost { id: String },
+    #[at("/blog/:slug")]
+    BlogPost { slug: String },
     #[at("/contact")]
     Contact,
     #[at("/admin/login")]

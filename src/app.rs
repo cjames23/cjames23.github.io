@@ -65,7 +65,7 @@ pub fn switch(route: Route) -> Html {
         Route::Contact => html! { <Layout><Contact /></Layout> },
         Route::Projects => html! { <Layout><Projects /></Layout> },
         Route::Blog => html! { <Layout><Blog /></Layout> },
-        Route::BlogPost { id } => html! { <Layout><BlogPost {id} /></Layout> },
+        Route::BlogPost { slug } => html! { <Layout><BlogPost {slug} /></Layout> },
         Route::Admin => html! { <Layout><Admin /></Layout> },
         Route::Login => html! { <Layout><Login /></Layout> },
         Route::NotFound => html! { <div class="not-found"><h1>{"404 - Not Found"}</h1></div> },
