@@ -19,19 +19,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: { extend: { fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] } } },
-    };
-  </script>
-
   <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="font-sans min-h-screen bg-[#F8FAFC] dark:bg-[#0F172A] text-[#0F172A] dark:text-[#E2E8F0]">
+<body>
   <!-- Single Page Apps for GitHub Pages: restore deep-link path from the 404 redirect. -->
   <script>
     (function (l) {
@@ -45,10 +37,9 @@
   </script>
 
   <!-- Boot splash, shown until Pyodide + the app are ready. -->
-  <div id="loading-splash" class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4
-       bg-[#F8FAFC] dark:bg-[#0F172A] text-[#0F172A] dark:text-[#E2E8F0]">
-    <div class="h-10 w-10 rounded-full border-4 border-current border-t-transparent animate-spin"></div>
-    <p class="text-sm opacity-80">Booting the Python runtime…</p>
+  <div id="loading-splash" class="splash">
+    <div class="spinner"></div>
+    <p>Booting the Python runtime…</p>
   </div>
 
   <div id="app"></div>
