@@ -28,8 +28,12 @@ body {
 .markdown-content p { margin: 0 0 1rem; }
 
 .markdown-content a {
+  color: #2563eb;
   text-decoration: underline;
   font-weight: 500;
+}
+.dark .markdown-content a {
+  color: #38bdf8;
 }
 
 .markdown-content ul,

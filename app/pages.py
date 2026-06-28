@@ -4,29 +4,20 @@ from puepy import Page, t
 from puepy.core import html
 
 from app.blog import blog_db
-from app.components import BORDER, CARD_BG, CARD_TEXT, SUBTLE, link
-
-TAG_COLORS = {
-    "rust": "bg-red-700",
-    "yew": "bg-blue-700",
-    "python": "bg-amber-600",
-    "ai": "bg-cyan-700",
-    "ethics": "bg-rose-700",
-    "obligation": "bg-rose-800",
-    "deconstruction": "bg-fuchsia-800",
-    "philosophy": "bg-indigo-700",
-    "zizek": "bg-violet-800",
-    "lacan": "bg-purple-800",
-}
+from app.components import ACCENT, BORDER, CARD_BG, CARD_TEXT, SUBTLE, link
 
 
 def _tag(name):
-    color = TAG_COLORS.get(name.lower(), "bg-black/30")
-    t.span(name, classes=f"{color} text-white px-2 py-0.5 rounded text-xs tracking-wide")
+    # Unified tag style in the Python-yellow secondary.
+    t.span(
+        name,
+        classes="bg-[#FACC15]/10 text-[#854D0E] dark:text-[#FBBF24] "
+        "border border-[#FACC15]/30 px-2 py-0.5 rounded text-xs",
+    )
 
 
 def _card_classes(*extra):
-    return " ".join([CARD_BG, CARD_TEXT, "rounded-xl shadow-md border", BORDER, *extra])
+    return " ".join([CARD_BG, CARD_TEXT, "rounded-xl shadow-sm border", BORDER, *extra])
 
 
 class BasePage(Page):
@@ -59,7 +50,8 @@ def _register(app):
                     self,
                     post.title,
                     f"/blog/{post.slug}",
-                    classes="block mt-3 text-2xl md:text-3xl font-bold leading-tight hover:underline",
+                    classes="block mt-3 text-2xl md:text-3xl font-bold leading-tight "
+                    "transition-colors hover:text-[#2563EB] dark:hover:text-[#38BDF8]",
                 )
                 t.p(post.excerpt(), classes="mt-3 leading-7 opacity-95")
                 with t.div(classes="mt-4 flex flex-wrap gap-2"):
@@ -70,7 +62,7 @@ def _register(app):
                         self,
                         ["Read article", t.i(classes="fas fa-arrow-right ml-2")],
                         f"/blog/{post.slug}",
-                        classes="inline-flex items-center font-medium hover:underline",
+                        classes=f"inline-flex items-center font-medium {ACCENT} hover:underline",
                     )
 
     @app.page("/blog/<slug>")
@@ -89,8 +81,8 @@ def _register(app):
         def populate_post(self, post):
             newer, older = blog_db.adjacent(post.slug)
 
-            with t.div(classes=f"text-sm mb-6 {SUBTLE}"):
-                link(self, "← Back to all posts", "/", classes="hover:underline")
+            with t.div(classes="text-sm mb-6"):
+                link(self, "← Back to all posts", "/", classes=f"{ACCENT} hover:underline")
 
             with t.article(classes=_card_classes("p-6 md:p-10")):
                 with t.header(classes=f"pb-6 mb-6 border-b {BORDER}"):
@@ -116,12 +108,14 @@ def _register(app):
                             t.span(
                                 t.i(classes="fas fa-arrow-left mr-2"),
                                 "Newer",
-                                classes="text-xs uppercase tracking-wide opacity-70",
+                                classes=f"text-xs uppercase tracking-wide {ACCENT}",
                             ),
                             t.span(newer.title, classes="font-medium mt-1 block"),
                         ],
                         f"/blog/{newer.slug}",
-                        classes=_card_classes("p-4 hover:opacity-90 sm:text-left"),
+                        classes=_card_classes(
+                            "p-4 transition-colors hover:border-[#2563EB]/50 dark:hover:border-[#38BDF8]/50 sm:text-left"
+                        ),
                     )
                 else:
                     t.span(classes="hidden sm:block")
@@ -130,7 +124,9 @@ def _register(app):
                     self,
                     [t.i(classes="fas fa-th-list mr-2"), "All posts"],
                     "/",
-                    classes=_card_classes("p-4 flex items-center justify-center hover:opacity-90"),
+                    classes=_card_classes(
+                        "p-4 flex items-center justify-center transition-colors hover:border-[#2563EB]/50 dark:hover:border-[#38BDF8]/50"
+                    ),
                 )
 
                 if older:
@@ -140,12 +136,14 @@ def _register(app):
                             t.span(
                                 "Older",
                                 t.i(classes="fas fa-arrow-right ml-2"),
-                                classes="text-xs uppercase tracking-wide opacity-70",
+                                classes=f"text-xs uppercase tracking-wide {ACCENT}",
                             ),
                             t.span(older.title, classes="font-medium mt-1 block"),
                         ],
                         f"/blog/{older.slug}",
-                        classes=_card_classes("p-4 hover:opacity-90 sm:text-right"),
+                        classes=_card_classes(
+                            "p-4 transition-colors hover:border-[#2563EB]/50 dark:hover:border-[#38BDF8]/50 sm:text-right"
+                        ),
                     )
                 else:
                     t.span(classes="hidden sm:block")
@@ -153,7 +151,7 @@ def _register(app):
         def populate_missing(self):
             t.h1("Post not found", classes="text-3xl font-bold")
             t.p("That post doesn't exist.", classes=f"mt-2 {SUBTLE}")
-            link(self, "← Back to all posts", "/", classes="inline-block mt-4 hover:underline")
+            link(self, "← Back to all posts", "/", classes=f"inline-block mt-4 {ACCENT} hover:underline")
 
     @app.page("/projects")
     class ProjectsPage(BasePage):
@@ -201,7 +199,7 @@ def _register(app):
                                     cta,
                                     t.i(classes="fas fa-arrow-up-right-from-square ml-2"),
                                     href=url,
-                                    classes="inline-flex items-center mt-4 font-medium underline hover:opacity-90",
+                                    classes="inline-flex items-center mt-4 font-medium underline transition-colors hover:border-[#2563EB]/50 dark:hover:border-[#38BDF8]/50",
                                 )
 
     @app.page("/about")
@@ -251,7 +249,7 @@ def _register(app):
                             t.h2("Recent Projects", classes="text-xl font-bold mb-3")
                             with t.ul(classes="list-disc list-inside space-y-2"):
                                 t.li("Personal portfolio site (Python / PyScript / PuePy)")
-                                t.li("Hatch monorepo workspace support")
+                                t.li("Hatch lockfile support and default type checking with pyrefly")
                                 t.li("OpenSearch Airflow provider")
 
     @app.page("/404")

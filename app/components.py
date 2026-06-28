@@ -4,12 +4,13 @@ SPA-aware link helper, and dark-mode handling."""
 import js
 from puepy import Component, t
 
-# Brand palette (Tailwind arbitrary values, light / dark via the `dark:` variant)
-SIDEBAR_BG = "bg-[#739072] dark:bg-[#4F6F52]"
-CARD_BG = "bg-[#739072] dark:bg-[#4F6F52]"
-CARD_TEXT = "text-[#1d2a1c] dark:text-[#ECE3CE]"
-BORDER = "border-[#4F6F52] dark:border-[#739072]"
-SUBTLE = "text-[#3A4D39]/70 dark:text-[#ECE3CE]/70"
+# Midnight Python palette (Tailwind arbitrary values, light / dark via the `dark:` variant)
+SIDEBAR_BG = "bg-white dark:bg-[#1E293B]"
+CARD_BG = "bg-white dark:bg-[#1E293B]"
+CARD_TEXT = "text-[#0F172A] dark:text-[#E2E8F0]"
+BORDER = "border-[#E2E8F0] dark:border-[#334155]"
+SUBTLE = "text-[#475569] dark:text-[#94A3B8]"
+ACCENT = "text-[#2563EB] dark:text-[#38BDF8]"  # electric-blue links / CTAs
 
 NAV_ITEMS = [
     ("Home", "fa-house", "/"),
@@ -60,10 +61,10 @@ class Layout(Component):
         width = "w-16" if collapsed else "w-64"
         with t.aside(
             classes=f"{SIDEBAR_BG} {width} shrink-0 h-screen flex flex-col "
-            "transition-all duration-300 ease-in-out border-r border-black/10 dark:border-white/10"
+            "transition-all duration-300 ease-in-out border-r border-[#E2E8F0] dark:border-[#334155]"
         ):
             # Brand / collapse toggle
-            with t.div(classes="flex items-center gap-2 p-4 border-b border-black/10 dark:border-white/10"):
+            with t.div(classes="flex items-center gap-2 p-4 border-b border-[#E2E8F0] dark:border-[#334155]"):
                 if not collapsed:
                     link(
                         self,
@@ -83,7 +84,11 @@ class Layout(Component):
                 current = self.application.current_path or "/"
                 for label, icon, path in NAV_ITEMS:
                     active = current == path or (path != "/" and current.startswith(path))
-                    active_cls = "bg-black/10 dark:bg-white/15 font-semibold" if active else ""
+                    active_cls = (
+                        "bg-[#2563EB]/10 dark:bg-[#38BDF8]/15 text-[#2563EB] dark:text-[#38BDF8] font-semibold"
+                        if active
+                        else ""
+                    )
                     link(
                         self,
                         [
@@ -111,7 +116,7 @@ class Layout(Component):
 
     def populate_footer(self):
         with t.footer(
-            classes="px-6 py-4 text-sm border-t border-black/10 dark:border-white/10 "
+            classes="px-6 py-4 text-sm border-t border-[#E2E8F0] dark:border-[#334155] "
             "flex flex-wrap items-center justify-between gap-3"
         ):
             t.span("© 2025 C. James Hawkins", classes=SUBTLE)
