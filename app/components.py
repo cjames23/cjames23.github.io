@@ -10,6 +10,14 @@ NAV_ITEMS = [
     ("About", "fa-user", "/about"),
 ]
 
+# Midnight Python palette (Tailwind arbitrary values, light / dark via the `dark:` variant)
+SIDEBAR_BG = "bg-white dark:bg-[#1E293B]"
+CARD_BG = "bg-white dark:bg-[#1E293B]"
+CARD_TEXT = "text-[#0F172A] dark:text-[#E2E8F0]"
+BORDER = "border-[#E2E8F0] dark:border-[#334155]"
+SUBTLE = "text-[#475569] dark:text-[#94A3B8]"
+ACCENT = "text-[#2563EB] dark:text-[#38BDF8]"
+
 
 def apply_theme(dark):
     """Toggle the `dark` class on <html> so the CSS dark-mode variables engage."""
