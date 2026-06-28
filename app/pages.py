@@ -4,20 +4,11 @@ from puepy import Page, t
 from puepy.core import html
 
 from app.blog import blog_db
-from app.components import ACCENT, BORDER, CARD_BG, CARD_TEXT, SUBTLE, link
+from app.components import link
 
 
 def _tag(name):
-    # Unified tag style in the Python-yellow secondary.
-    t.span(
-        name,
-        classes="bg-[#FACC15]/10 text-[#854D0E] dark:text-[#FBBF24] "
-        "border border-[#FACC15]/30 px-2 py-0.5 rounded text-xs",
-    )
-
-
-def _card_classes(*extra):
-    return " ".join([CARD_BG, CARD_TEXT, "rounded-xl shadow-sm border", BORDER, *extra])
+    t.span(name, classes="tag")
 
 
 class BasePage(Page):
@@ -30,39 +21,32 @@ def _register(app):
     @app.page()
     class HomePage(BasePage):
         def populate(self):
-            with t.layout() as layout:
-                with layout.slot():
-                    t.h1("Writing", classes="text-4xl font-bold tracking-tight")
-                    t.p(
-                        "Notes on software, philosophy, and the strange places where engineering meets theory.",
-                        classes=f"mt-2 mb-8 max-w-2xl {SUBTLE}",
-                    )
-                    with t.div(classes="flex flex-col gap-6"):
-                        for post in blog_db.all():
-                            self.populate_card(post)
+            with t.layout() as layout, layout.slot():
+                t.h1("Writing", classes="page-title")
+                t.p(
+                    "Notes on software, philosophy, and the strange places where engineering meets theory.",
+                    classes="page-intro",
+                )
+                with t.div(classes="post-list"):
+                    for post in blog_db.all():
+                        self.populate_card(post)
 
         def populate_card(self, post):
-            with t.article(classes=_card_classes("p-6 md:p-8")):
-                with t.div(classes="flex flex-wrap items-center gap-3 text-sm opacity-80"):
-                    t.span(t.i(classes="far fa-calendar-alt mr-2"), post.formatted_date)
-                    t.span(t.i(classes="fas fa-user mr-2"), post.author)
-                link(
-                    self,
-                    post.title,
-                    f"/blog/{post.slug}",
-                    classes="block mt-3 text-2xl md:text-3xl font-bold leading-tight "
-                    "transition-colors hover:text-[#2563EB] dark:hover:text-[#38BDF8]",
-                )
-                t.p(post.excerpt(), classes="mt-3 leading-7 opacity-95")
-                with t.div(classes="mt-4 flex flex-wrap gap-2"):
+            with t.article(classes="card"):
+                with t.div(classes="post-meta"):
+                    t.span(t.i(classes="far fa-calendar-alt"), post.formatted_date)
+                    t.span(t.i(classes="fas fa-user"), post.author)
+                link(self, post.title, f"/blog/{post.slug}", classes="post-title-link")
+                t.p(post.excerpt(), classes="post-excerpt")
+                with t.div(classes="tags"):
                     for tag in post.tags:
                         _tag(tag)
-                with t.div(classes=f"mt-5 pt-4 border-t {BORDER} flex justify-end"):
+                with t.div(classes="card-foot"):
                     link(
                         self,
-                        ["Read article", t.i(classes="fas fa-arrow-right ml-2")],
+                        ["Read article", t.i(classes="fas fa-arrow-right")],
                         f"/blog/{post.slug}",
-                        classes=f"inline-flex items-center font-medium {ACCENT} hover:underline",
+                        classes="read-link",
                     )
 
     @app.page("/blog/<slug>")
@@ -70,63 +54,62 @@ def _register(app):
         props = ["slug"]
 
         def populate(self):
-            with t.layout() as layout:
-                with layout.slot():
-                    post = blog_db.by_slug(self.slug)
-                    if post is None:
-                        self.populate_missing()
-                    else:
-                        self.populate_post(post)
+            with t.layout() as layout, layout.slot():
+                post = blog_db.by_slug(self.slug)
+                if post is None:
+                    self.populate_missing()
+                else:
+                    self.populate_post(post)
 
         def populate_post(self, post):
             newer, older = blog_db.adjacent(post.slug)
 
-            with t.div(classes="text-sm mb-6"):
-                link(self, "← Back to all posts", "/", classes=f"{ACCENT} hover:underline")
+            link(
+                self,
+                [t.i(classes="fas fa-arrow-left"), "Back to all posts"],
+                "/",
+                classes="back-link",
+            )
 
-            with t.article(classes=_card_classes("p-6 md:p-10")):
-                with t.header(classes=f"pb-6 mb-6 border-b {BORDER}"):
-                    t.h1(post.title, classes="text-3xl md:text-4xl font-bold leading-tight")
-                    with t.div(classes="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm opacity-80"):
-                        t.span(t.i(classes="fas fa-user mr-2"), post.author)
-                        t.span(t.i(classes="far fa-calendar-alt mr-2"), post.formatted_date)
-                        t.span(t.i(classes="far fa-clock mr-2"), f"{post.reading_time} min read")
-                    with t.div(classes="mt-4 flex flex-wrap gap-2"):
+            with t.article(classes="card"):
+                with t.header(classes="post-header"):
+                    t.h1(post.title, classes="post-h1")
+                    with t.div(classes="byline"):
+                        t.span(t.i(classes="fas fa-user"), post.author)
+                        t.span(t.i(classes="far fa-calendar-alt"), post.formatted_date)
+                        t.span(t.i(classes="far fa-clock"), f"{post.reading_time} min read")
+                    with t.div(classes="tags"):
                         for tag in post.tags:
                             _tag(tag)
-                with t.section(classes="markdown-content text-base md:text-lg leading-8"):
+                with t.section(classes="markdown-content"):
                     t(html(post.html()))
 
             self.populate_nav(newer, older)
 
         def populate_nav(self, newer, older):
-            with t.nav(classes=f"mt-8 pt-6 border-t {BORDER} grid grid-cols-1 sm:grid-cols-3 gap-4"):
+            with t.nav(classes="postnav"):
                 if newer:
                     link(
                         self,
                         [
                             t.span(
-                                t.i(classes="fas fa-arrow-left mr-2"),
+                                t.i(classes="fas fa-arrow-left"),
                                 "Newer",
-                                classes=f"text-xs uppercase tracking-wide {ACCENT}",
+                                classes="postnav-label",
                             ),
-                            t.span(newer.title, classes="font-medium mt-1 block"),
+                            t.span(newer.title, classes="postnav-title"),
                         ],
                         f"/blog/{newer.slug}",
-                        classes=_card_classes(
-                            "p-4 transition-colors hover:border-[#2563EB]/50 dark:hover:border-[#38BDF8]/50 sm:text-left"
-                        ),
+                        classes="postnav-card",
                     )
                 else:
-                    t.span(classes="hidden sm:block")
+                    t.span(classes="postnav-empty")
 
                 link(
                     self,
-                    [t.i(classes="fas fa-th-list mr-2"), "All posts"],
+                    [t.i(classes="fas fa-th-list"), "All posts"],
                     "/",
-                    classes=_card_classes(
-                        "p-4 flex items-center justify-center transition-colors hover:border-[#2563EB]/50 dark:hover:border-[#38BDF8]/50"
-                    ),
+                    classes="postnav-card postnav-card--all",
                 )
 
                 if older:
@@ -135,23 +118,21 @@ def _register(app):
                         [
                             t.span(
                                 "Older",
-                                t.i(classes="fas fa-arrow-right ml-2"),
-                                classes=f"text-xs uppercase tracking-wide {ACCENT}",
+                                t.i(classes="fas fa-arrow-right"),
+                                classes="postnav-label",
                             ),
-                            t.span(older.title, classes="font-medium mt-1 block"),
+                            t.span(older.title, classes="postnav-title"),
                         ],
                         f"/blog/{older.slug}",
-                        classes=_card_classes(
-                            "p-4 transition-colors hover:border-[#2563EB]/50 dark:hover:border-[#38BDF8]/50 sm:text-right"
-                        ),
+                        classes="postnav-card postnav-card--right",
                     )
                 else:
-                    t.span(classes="hidden sm:block")
+                    t.span(classes="postnav-empty")
 
         def populate_missing(self):
-            t.h1("Post not found", classes="text-3xl font-bold")
-            t.p("That post doesn't exist.", classes=f"mt-2 {SUBTLE}")
-            link(self, "← Back to all posts", "/", classes=f"inline-block mt-4 {ACCENT} hover:underline")
+            t.h1("Post not found", classes="page-title")
+            t.p("That post doesn't exist.", classes="muted")
+            link(self, "← Back to all posts", "/", classes="back-link")
 
     @app.page("/projects")
     class ProjectsPage(BasePage):
@@ -187,20 +168,19 @@ def _register(app):
         ]
 
         def populate(self):
-            with t.layout() as layout:
-                with layout.slot():
-                    t.h1("Projects", classes="text-4xl font-bold tracking-tight mb-8")
-                    with t.div(classes="grid grid-cols-1 md:grid-cols-2 gap-6"):
-                        for title, body, url, cta in self.PROJECTS:
-                            with t.div(classes=_card_classes("p-6")):
-                                t.h2(title, classes="text-xl font-bold")
-                                t.p(body, classes="mt-2 leading-7 opacity-95")
-                                t.a(
-                                    cta,
-                                    t.i(classes="fas fa-arrow-up-right-from-square ml-2"),
-                                    href=url,
-                                    classes="inline-flex items-center mt-4 font-medium underline transition-colors hover:border-[#2563EB]/50 dark:hover:border-[#38BDF8]/50",
-                                )
+            with t.layout() as layout, layout.slot():
+                t.h1("Projects", classes="page-title")
+                with t.div(classes="grid-2 section-gap"):
+                    for title, body, url, cta in self.PROJECTS:
+                        with t.div(classes="card"):
+                            t.h2(title, classes="card-title")
+                            t.p(body, classes="card-body")
+                            t.a(
+                                cta,
+                                t.i(classes="fas fa-arrow-up-right-from-square"),
+                                href=url,
+                                classes="project-link",
+                            )
 
     @app.page("/about")
     class AboutPage(BasePage):
@@ -229,38 +209,38 @@ def _register(app):
         ]
 
         def populate(self):
-            with t.layout() as layout:
-                with layout.slot():
-                    t.h1(
-                        "I am Cary Hawkins, an Alpinist and Software Engineer from Sultan, WA.",
-                        classes="text-3xl md:text-4xl font-bold tracking-tight",
-                    )
-                    t.p(self.BIO, classes="mt-6 leading-8 max-w-3xl")
-                    with t.div(classes="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10"):
-                        with t.div(classes=_card_classes("p-6")):
-                            t.h2("Skills", classes="text-xl font-bold mb-3")
-                            with t.div(classes="flex flex-wrap gap-2"):
-                                for skill in self.SKILLS:
-                                    t.span(
-                                        skill,
-                                        classes="bg-black/15 dark:bg-white/10 px-3 py-1 rounded text-sm",
-                                    )
-                        with t.div(classes=_card_classes("p-6")):
-                            t.h2("Recent Projects", classes="text-xl font-bold mb-3")
-                            with t.ul(classes="list-disc list-inside space-y-2"):
-                                t.li("Personal portfolio site (Python / PyScript / PuePy)")
-                                t.li("Hatch lockfile support and default type checking with pyrefly")
-                                t.li("OpenSearch Airflow provider")
+            with t.layout() as layout, layout.slot():
+                t.h1(
+                    "I am Cary Hawkins, an Alpinist and Software Engineer from Sultan, WA.",
+                    classes="about-h1",
+                )
+                t.p(self.BIO, classes="about-bio")
+                with t.div(classes="grid-2 section-gap"):
+                    with t.div(classes="card"):
+                        t.h2("Skills", classes="card-title")
+                        with t.div(classes="skills"):
+                            for skill in self.SKILLS:
+                                t.span(skill, classes="skill")
+                    with t.div(classes="card"):
+                        t.h2("Recent Projects", classes="card-title")
+                        with t.ul(classes="list"):
+                            t.li("Personal portfolio site (Python / PyScript / PuePy)")
+                            t.li("Hatch lockfile support and default type checking with pyrefly")
+                            t.li("OpenSearch Airflow provider")
 
     @app.page("/404")
     class NotFoundPage(BasePage):
         props = ["error"]
 
         def populate(self):
-            with t.layout() as layout:
-                with layout.slot():
-                    t.h1("404", classes="text-5xl font-bold")
-                    t.p("That page doesn't exist.", classes=f"mt-2 {SUBTLE}")
-                    link(self, "← Back home", "/", classes="inline-block mt-4 hover:underline")
+            with t.layout() as layout, layout.slot():
+                t.h1("404", classes="notfound-code")
+                t.p("That page doesn't exist.", classes="muted")
+                link(
+                    self,
+                    [t.i(classes="fas fa-arrow-left"), "Back home"],
+                    "/",
+                    classes="back-link",
+                )
 
     return NotFoundPage

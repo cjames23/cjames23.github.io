@@ -95,7 +95,7 @@ select = ["E", "W", "F", "I", "UP", "B", "C4", "SIM", "PERF", "RUF"]
 ignore = [
     "SIM117",  # nested `with` blocks are the PuePy element-builder idiom
     "RUF012",  # PuePy `props` and page-level data are plain class attributes, not ClassVar
-    "E501",    # line width is managed by the formatter; long inline Tailwind class strings and URLs shouldn't nag
+    "E501",    # line width is managed by the formatter; long URLs in inline data shouldn't nag
 ]
 
 [tool.ruff.lint.per-file-ignores]
