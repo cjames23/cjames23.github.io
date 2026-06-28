@@ -16,9 +16,11 @@
   --tag-text: #854d0e;
   --tag-bg: rgba(250, 204, 21, 0.1);
   --tag-border: rgba(202, 138, 4, 0.3);
-  --shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 4px 10px -3px rgba(15, 23, 42, 0.05);
+  --shadow-accent: 0 10px 25px -5px rgba(37, 99, 235, 0.18), 0 4px 10px -3px rgba(37, 99, 235, 0.1);
   --radius: 0.5rem;
-  --radius-lg: 0.75rem;
+  --radius-lg: 0.875rem;
   --container: 56rem;
 }
 
@@ -35,7 +37,9 @@ html.dark {
   --tag-text: #fbbf24;
   --tag-bg: rgba(250, 204, 21, 0.1);
   --tag-border: rgba(250, 204, 21, 0.3);
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 4px 10px -3px rgba(0, 0, 0, 0.3);
+  --shadow-accent: 0 10px 25px -5px rgba(56, 189, 248, 0.25), 0 4px 10px -3px rgba(56, 189, 248, 0.15);
 }
 
 * {
@@ -230,6 +234,10 @@ img {
   font-size: 2.25rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .page-intro {
@@ -246,11 +254,20 @@ img {
 }
 
 .card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.post-list .card:hover,
+.grid-2 .card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
 }
 
 @media (min-width: 768px) {
@@ -329,6 +346,19 @@ img {
   color: var(--accent);
 }
 
+.read-link i,
+.back-link i {
+  transition: transform 0.2s ease;
+}
+
+.read-link:hover i {
+  transform: translateX(3px);
+}
+
+.back-link:hover i {
+  transform: translateX(-3px);
+}
+
 .read-link:hover,
 .back-link:hover {
   text-decoration: underline;
@@ -396,10 +426,12 @@ img {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
-  transition: border-color 0.15s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .postnav-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
   border-color: var(--accent);
 }
 
