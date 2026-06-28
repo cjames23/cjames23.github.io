@@ -1,50 +1,59 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C James Hawkins</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C. James Hawkins</title>
+  <meta name="description" content="Writing on software, philosophy, and build tools — by Cary (C. James) Hawkins." />
+
+  <!-- No-flash dark mode: apply the saved preference before first paint. -->
+  <script>
+    try {
+      if (localStorage.getItem("dark_mode") === "1") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link data-trunk rel="scss" href="assets/style.scss">
-  <!-- This path needs to be here, otherwise icons won't render correctly -->
-  <link data-trunk rel="copy-dir" href="node_modules/@patternfly/patternfly/assets" data-target-path="assets/">
-  <link data-trunk rel="copy-file" href="assets/images/about.jpeg">
-  <link data-trunk rel="copy-file" href="assets/images/logo.svg">
-  <link data-trunk rel="copy-file" href="assets/404.html"></link>
-  <link data-trunk rel="copy-file" href="CNAME"></link>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: { extend: { fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] } } },
+    };
+  </script>
 
-  <!-- include when using the icons-far or icons-fab feature -->
-  <!-- also requires includes in the assets/styles.scss file -->
-  <link data-trunk rel="copy-dir" href="node_modules/@fortawesome/fontawesome-free/webfonts">
-
-  <link data-trunk rel="rust" href="Cargo.toml" data-wasm-opt="z" data-initializer="assets/initializer.mjs"/>
-
-  <base data-trunk-public-url/>
+  <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
-<script type="text/javascript">
-  // Single Page Apps for GitHub Pages
-  // MIT License
-  // https://github.com/rafgraph/spa-github-pages
-  // This script checks to see if a redirect is present in the query string,
-  // converts it back into the correct url and adds it to the
-  // browser's history using window.history.replaceState(...),
-  // which won't cause the browser to attempt to load the new url.
-  // When the single page app is loaded further down in this file,
-  // the correct url will be waiting in the browser's history for
-  // the single page app to route accordingly.
-  (function(l) {
-    if (l.search[1] === '/' ) {
-      var decoded = l.search.slice(1).split('&').map(function(s) {
-        return s.replace(/~and~/g, '&')
-      }).join('?');
-      window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-      );
-    }
-  }(window.location))
-</script>
-</body>
+<body class="font-sans min-h-screen bg-[#ECE3CE] dark:bg-[#3A4D39] text-[#3A4D39] dark:text-[#ECE3CE]">
+  <!-- Single Page Apps for GitHub Pages: restore deep-link path from the 404 redirect. -->
+  <script>
+    (function (l) {
+      if (l.search[1] === "/") {
+        var decoded = l.search.slice(1).split("&").map(function (s) {
+          return s.replace(/~and~/g, "&");
+        }).join("?");
+        window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+      }
+    })(window.location);
+  </script>
 
+  <!-- Boot splash, shown until Pyodide + the app are ready. -->
+  <div id="loading-splash" class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4
+       bg-[#ECE3CE] dark:bg-[#3A4D39] text-[#3A4D39] dark:text-[#ECE3CE]">
+    <div class="h-10 w-10 rounded-full border-4 border-current border-t-transparent animate-spin"></div>
+    <p class="text-sm opacity-80">Booting the Python runtime…</p>
+  </div>
+
+  <div id="app"></div>
+
+  <script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script>
+  <script type="py" src="main.py" config="pyscript.toml"></script>
+</body>
 </html>

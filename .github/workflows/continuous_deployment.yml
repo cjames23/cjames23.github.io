@@ -6,59 +6,61 @@ on:
     branches: [ master, main ]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: cargo test --all
+      - uses: actions/checkout@v4
 
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Install rustfmt component
-        run: rustup component add --toolchain 1.77.2-x86_64-unknown-linux-gnu rustfmt
+      - name: Install Hatch
+        run: pipx install hatch
 
-      - name: Check code formatting
-        run: cargo fmt --all -- --check
+      - name: Build site
+        run: hatch run build
 
-  release:
-    needs: [test, format]
+      - name: Lint
+        run: hatch check code
+
+      - name: Format check
+        run: hatch check fmt
+
+      - name: Type check
+        run: hatch check types
+
+      - name: Run tests
+        run: hatch test
+
+      - name: Upload built site
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: dist
+
+  deploy:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Setup Rust
-        uses: actions-rs/toolchain@v1
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
+          python-version: '3.12'
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      - name: Install Hatch
+        run: pipx install hatch
 
-      - name: Install Tailwind CSS and dependencies
-        run: npm install -D tailwindcss @tailwindcss/cli
+      - name: Build site
+        run: hatch run build
 
-      - name: Install trunk
-        uses: jetli/trunk-action@v0.1.0
-
-      - name: Build with trunk
-        run: trunk build --release
-        # Trunk will handle Tailwind processing via the hook in Trunk.toml
-
-      - name: Create .nojekyll file
-        run: touch dist/.nojekyll
-
-      - name: Copy index.html to 404.html
-        run: cp dist/index.html dist/404.html
-
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

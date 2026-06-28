@@ -1,0 +1,11 @@
+packages = ['puepy', 'markdown']
+
+[files]
+"app/__init__.py" = "app/__init__.py"
+"app/blog.py" = "app/blog.py"
+"app/components.py" = "app/components.py"
+"app/pages.py" = "app/pages.py"
+"posts/index.json" = "posts/index.json"
+"posts/ethics-in-the-ai-age.md" = "posts/ethics-in-the-ai-age.md"
+"posts/learning-rust-with-yew.md" = "posts/learning-rust-with-yew.md"
+"posts/philosophy-of-slavoj-zizek.md" = "posts/philosophy-of-slavoj-zizek.md"

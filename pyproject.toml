@@ -1,0 +1,102 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cjames-web"
+version = "1.0.0"
+description = "Personal website — a Python (PyScript + PuePy) WebAssembly app."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+# The runtime dependencies (puepy, markdown) are installed *in the browser* by
+# Pyodide/micropip via pyscript.toml. The deps below are only what local tooling
+# and tests need.
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+# ---------------------------------------------------------------------------
+# Default environment — local workflows: build and preview the static site.
+#   hatch run build   -> regenerate posts/index.json + pyscript.toml, assemble dist/
+#   hatch run serve   -> build, then serve dist/ over HTTP (PyScript needs http://)
+#   hatch run clean   -> remove dist/
+# ---------------------------------------------------------------------------
+[tool.hatch.envs.default]
+dependencies = [
+    "markdown",
+]
+
+[tool.hatch.envs.default.scripts]
+build = "python build.py"
+serve = [
+    "python build.py",
+    "python -m http.server 8000 --directory dist",
+]
+clean = "python -c \"import shutil; shutil.rmtree('dist', ignore_errors=True)\""
+
+# ---------------------------------------------------------------------------
+# `hatch test` — runs the pytest suite against the data layer (app/blog.py).
+# ---------------------------------------------------------------------------
+[tool.hatch.envs.hatch-test]
+extra-dependencies = [
+    "markdown",
+]
+
+# ---------------------------------------------------------------------------
+# `hatch check types` — Pyrefly type checking (Hatch's reserved env).
+# Pyrefly and the base test deps are provided automatically; we add the runtime
+# imports (puepy, markdown) so Pyrefly can resolve them during analysis.
+# ---------------------------------------------------------------------------
+[tool.hatch.envs.hatch-check-types]
+extra-dependencies = [
+    "puepy",
+    "markdown",
+]
+
+# `hatch check code` / `hatch check fmt` use the project's own Ruff config below
+# (instead of Hatch's bundled defaults, which are tuned for libraries and fight a
+# few PuePy idioms).
+[tool.hatch.envs.hatch-check-code]
+config-path = "pyproject.toml"
+
+[tool.hatch.envs.hatch-check-fmt]
+config-path = "pyproject.toml"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+# ---------------------------------------------------------------------------
+# Pyrefly configuration (consumed by `hatch check types`).
+# ---------------------------------------------------------------------------
+[tool.pyrefly]
+project-includes = ["app", "main.py", "build.py"]
+search-path = ["."]
+python-version = "3.12"
+# Treat these as `Any`:
+#   - `js` / `pyodide`: injected by the Pyodide runtime in the browser; not installable.
+#   - `puepy`: ships no type information and relies on heavy dynamic metaprogramming
+#     (e.g. `props`-defined attributes, the `t` element builder, component slots),
+#     which a static checker can't follow. This keeps our own logic (app/blog.py,
+#     build.py) type-checked without false positives from the UI framework.
+replace-imports-with-any = ["js", "pyodide", "pyodide.*", "puepy", "puepy.*"]
+
+# ---------------------------------------------------------------------------
+# Ruff configuration (consumed by `hatch check code` and `hatch check fmt`).
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "C4", "SIM", "PERF", "RUF"]
+ignore = [
+    "SIM117",  # nested `with` blocks are the PuePy element-builder idiom
+    "RUF012",  # PuePy `props` and page-level data are plain class attributes, not ClassVar
+]
+
+[tool.ruff.lint.per-file-ignores]
+# main.py legitimately imports after sys.path setup and after mount (the js import).
+"main.py" = ["E402"]
