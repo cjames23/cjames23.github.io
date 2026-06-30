@@ -162,7 +162,7 @@ def _register(app):
                 "A personal site rebuilt to run entirely in the browser with Python — "
                 "PyScript + Pyodide + the PuePy framework — rendering this very blog's "
                 "markdown client-side.",
-                "https://github.com/cjames23/portfolio",
+                "https://github.com/cjames23/cjames23.github.io",
                 "View on GitHub",
             ),
         ]
@@ -196,16 +196,14 @@ def _register(app):
         SKILLS = [
             "Rust",
             "Python",
-            "Java",
             "AWS",
             "Database Design",
             "Data Engineering",
-            "Gradle",
-            "Kotlin",
-            "Scala",
             "PyO3",
             "Maturin",
             "PyScript",
+            "Hatch",
+            "Python Packaging",
         ]
 
         def populate(self):

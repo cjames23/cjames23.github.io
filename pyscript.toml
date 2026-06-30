@@ -7,6 +7,7 @@ packages = ['puepy', 'markdown']
 "app/pages.py" = "app/pages.py"
 "posts/index.json" = "posts/index.json"
 "posts/ethics-in-the-ai-age.md" = "posts/ethics-in-the-ai-age.md"
+"posts/hermeneutics-of-provenance.md" = "posts/hermeneutics-of-provenance.md"
 "posts/latest-in-hatch.md" = "posts/latest-in-hatch.md"
 "posts/learning-rust-with-yew.md" = "posts/learning-rust-with-yew.md"
 "posts/philosophy-of-slavoj-zizek.md" = "posts/philosophy-of-slavoj-zizek.md"
