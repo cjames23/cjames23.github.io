@@ -203,7 +203,7 @@ def _register(app):
             "Maturin",
             "PyScript",
             "Hatch",
-            "Python Packaging"
+            "Python Packaging",
         ]
 
         def populate(self):
