@@ -32,7 +32,7 @@ dependencies = [
 build = "python build.py"
 serve = [
     "python build.py",
-    "python -m http.server 8000 --directory dist",
+    "python serve.py 8000",
 ]
 clean = "python -c \"import shutil; shutil.rmtree('dist', ignore_errors=True)\""
 
@@ -72,7 +72,7 @@ testpaths = ["tests"]
 # Pyrefly configuration (consumed by `hatch check types`).
 # ---------------------------------------------------------------------------
 [tool.pyrefly]
-project-includes = ["app", "main.py", "build.py"]
+project-includes = ["app", "main.py", "build.py", "serve.py"]
 search-path = ["."]
 python-version = "3.12"
 # Treat these as `Any`:

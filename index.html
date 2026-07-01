@@ -3,6 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Every deep-link path (e.g. /projects, /blog/foo) falls back to this same
+       document via GH Pages' 404.html, so all relative URLs (main.py,
+       pyscript.toml, style.css, the pyscript [files] bundle) must resolve from
+       the site root — not from the deep-link path. -->
+  <base href="/" />
   <title>C. James Hawkins</title>
   <meta name="description" content="Writing on software, philosophy, and build tools — by Cary (C. James) Hawkins." />
 

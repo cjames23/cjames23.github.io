@@ -34,11 +34,15 @@ def write_index(slugs):
 
 
 def write_pyscript_toml(slugs):
+    # The KEY is the URL PyScript fetches; the VALUE is the path in the Pyodide
+    # VFS. PyScript resolves relative fetch URLs against `document.URL`, NOT
+    # `document.baseURI`, so a deep-link route like `/blog/<slug>` would try to
+    # fetch `/blog/app/__init__.py`. Root-anchored URLs sidestep that.
     packages = ", ".join(repr(p) for p in PACKAGES)
     lines = [f"packages = [{packages}]", "", "[files]"]
-    lines.extend(f'"{module}" = "{module}"' for module in APP_MODULES)
-    lines.append('"posts/index.json" = "posts/index.json"')
-    lines.extend(f'"posts/{slug}.md" = "posts/{slug}.md"' for slug in slugs)
+    lines.extend(f'"/{module}" = "{module}"' for module in APP_MODULES)
+    lines.append('"/posts/index.json" = "posts/index.json"')
+    lines.extend(f'"/posts/{slug}.md" = "posts/{slug}.md"' for slug in slugs)
     with open(os.path.join(ROOT, "pyscript.toml"), "w") as fh:
         fh.write("\n".join(lines) + "\n")
 
