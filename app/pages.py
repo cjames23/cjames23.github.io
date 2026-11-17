@@ -165,6 +165,13 @@ def _register(app):
                 "https://github.com/cjames23/cjames23.github.io",
                 "View on GitHub",
             ),
+            (
+                "Rust for CPython",
+                "I am working on the Rust for CPython project which will move base64 to using rust instead of C"
+                "This project is run by Emma Smith(emmatyping) a Core Dev in CPython where I am contributing",
+                "https://github.com/Rust-for-CPython/cpython/",
+                "View on GitHub",
+            ),
         ]
 
         def populate(self):
