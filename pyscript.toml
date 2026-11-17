@@ -8,6 +8,7 @@ packages = ['puepy', 'markdown']
 "/posts/index.json" = "posts/index.json"
 "/posts/ethics-in-the-ai-age.md" = "posts/ethics-in-the-ai-age.md"
 "/posts/hermeneutics-of-provenance.md" = "posts/hermeneutics-of-provenance.md"
+"/posts/hermeneutics-of-vulnerability.md" = "posts/hermeneutics-of-vulnerability.md"
 "/posts/latest-in-hatch.md" = "posts/latest-in-hatch.md"
 "/posts/learning-rust-with-yew.md" = "posts/learning-rust-with-yew.md"
 "/posts/philosophy-of-slavoj-zizek.md" = "posts/philosophy-of-slavoj-zizek.md"
