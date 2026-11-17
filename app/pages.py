@@ -170,8 +170,7 @@ def _register(app):
                 "I am working on the Rust for CPython project which will move base64 to using rust instead of C"
                 "This project is run by Emma Smith(emmatyping) a Core Dev in CPython where I am contributing",
                 "https://github.com/Rust-for-CPython/cpython/",
-                "View on GitHub"
-
+                "View on GitHub",
             ),
         ]
 
